@@ -44,11 +44,11 @@ src.
 │  │                  │     └─controller                   
 │  │                  ├─plugin                                  ---插件层, 易于被切换的工具, 对第三方jar的扩展, 可以被其他项目共用以至抽取到kbase-common包的内容,相比当前项目中的util更加抽象
 │  │                  ├─util                                    ---工具类
-│  │                  └─web                                     ---filter listener controller servlet
+│  │                  └─web                                     ---filter listener servlet
 │  └─resources                                                  ---resources
 │      ├─conf                                                   ---相关属性配置 
-│      │  └─mybatis                                             ---mybaits-config
-│      │      └─mapper                                          ---mybaits-mapper
+│      │  └─mybatis                                             ---mybatis-config
+│      │      └─mapper                                          ---mybatis-mapper
 │      ├─static                                                 ---静态资源 js css images等
 │      └─templates                                              ---thymeleaf freemarker等
 └─test                                                          ---JUnit测试
