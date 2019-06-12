@@ -3,7 +3,6 @@ package com.eastrobot.kbs.template.auth;
 import com.eastrobot.kbs.template.config.JwtConfig;
 import com.eastrobot.kbs.template.exception.ResponseEntity;
 import com.eastrobot.kbs.template.exception.ResultCode;
-import com.eastrobot.kbs.template.util.EnvironmentUtil;
 import com.eastrobot.kbs.template.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -12,32 +11,36 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
+@Component
 public class KbsLogoutSuccessHandler implements LogoutSuccessHandler {
 
-    private JwtConfig jwtConfig = EnvironmentUtil.ofCtx().getBean(JwtConfig.class);
+    @Resource
+    private JwtConfig jwtConfig;
 
-    private RedisTemplate redisTemplate = EnvironmentUtil.ofCtx().getBean(RedisTemplate.class);
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                 Authentication authentication) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         try {
-            Optional<String> userIdOpt = Optional.of(request.getHeader(jwtConfig.getAuthHeader()))
+            Optional.of(request.getHeader(jwtConfig.getAuthHeader()))
                     .filter(StringUtils::isNotBlank)
                     .map(JwtUtil::ofClaims)
-                    .map(Claims::getId);
-            if (userIdOpt.isPresent()) {
-                // 退出删除jwt
-                redisTemplate.delete(userIdOpt.get());
-            }
+                    .map(Claims::getId)
+                    .ifPresent(s -> redisTemplate.delete(s));
+            // 退出删除jwt
+            // userIdOpt.ifPresent(s -> redisTemplate.delete(s));
 
             response.getWriter().write(ResponseEntity.ofSuccess(ResultCode.JWT_USER_LOGOUT.meaning).toString());
         } catch (Exception e) {

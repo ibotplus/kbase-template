@@ -3,18 +3,18 @@ package com.eastrobot.kbs.template.auth.filter;
 import com.eastrobot.kbs.template.config.JwtConfig;
 import com.eastrobot.kbs.template.exception.ResponseEntity;
 import com.eastrobot.kbs.template.exception.ResultCode;
-import com.eastrobot.kbs.template.util.EnvironmentUtil;
 import com.eastrobot.kbs.template.util.JwtUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,15 +30,16 @@ import java.util.Optional;
  * @version v1.0 , 2019-03-15 16:00
  */
 @Slf4j
-public class KbsJwtAuthorizationFilter extends BasicAuthenticationFilter {
+@Component
+public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private JwtConfig jwtConfig = EnvironmentUtil.ofCtx().getBean(JwtConfig.class);
+    @Resource
+    private JwtConfig jwtConfig;
 
-    private RedisTemplate redisTemplate = EnvironmentUtil.ofCtx().getBean(RedisTemplate.class);
+    @Resource
+    private RedisTemplate redisTemplate;
 
-    public KbsJwtAuthorizationFilter(AuthenticationManager authenticationManager) {
-        super(authenticationManager);
-    }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

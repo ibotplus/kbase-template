@@ -4,7 +4,7 @@ import com.eastrobot.kbs.template.config.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -18,16 +18,16 @@ import java.util.Date;
 import java.util.Optional;
 
 @Component
-public class JwtUtil implements InitializingBean {
+public class JwtUtil {
 
     private static PrivateKey privateKey;
-    private static PublicKey  publicKey;
+    private static PublicKey publicKey;
     private static JwtConfig jwtConfig;
 
     static {
         //加载kbase-live-api.jks文件
         try (InputStream inputStream =
-                     Thread.currentThread().getContextClassLoader().getResourceAsStream("jwt-public.jks")) {
+                     Thread.currentThread().getContextClassLoader().getResourceAsStream("jwt.jks")) {
             KeyStore keyStore = KeyStore.getInstance("JKS");
             keyStore.load(inputStream, "ibotkbs".toCharArray());
             privateKey = (PrivateKey) keyStore.getKey("jwt", "ibotkbs".toCharArray());
@@ -93,8 +93,10 @@ public class JwtUtil implements InitializingBean {
                 .getBody();
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        jwtConfig = EnvironmentUtil.ofCtx().getBean(JwtConfig.class);
+
+    @Autowired
+    public void setJwtConfig(JwtConfig jwtConfig) {
+        JwtUtil.jwtConfig = jwtConfig;
     }
+
 }

@@ -3,7 +3,7 @@
 依赖公共pom (`kbase-pom`) 公用组件 (`kbase-common`) 统一版本的模版项目
 
 
-### 1. 依次执行以下操作初始化
+### 1. 依次执行以下操作完成项目初始化工作
 
 1. `git clone {remote-url}` 本仓库, 
 2. 删除.git文件夹 修改`template`为项目包名 修改`SwaggerConfig`中的描述
@@ -17,6 +17,7 @@
 
 ### 2. SpringSecurity with JWT
 修改`KbsUserDetailsService` 中数据用户接入部分
+登录接口为
 
 ### 3. 包结构说明
 ```markdown

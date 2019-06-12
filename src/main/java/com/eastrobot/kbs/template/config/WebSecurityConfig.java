@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,6 +32,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private KbsAuthenticationSuccessHandler kbsAuthenticationSuccessHandler;
+
+    @Autowired
+    private KbsAuthenticationFailureHandler kbsAuthenticationFailureHandler;
+
+    @Autowired
+    private KbsLogoutSuccessHandler kbsLogoutSuccessHandler;
+
+    @Autowired
+    private KbsJwtAuthorizationFilter kbsJwtAuthorizationFilter;
 
     @Override
     public void configure(WebSecurity web) {
@@ -60,15 +73,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 登录配置
                 .formLogin()
-                .successHandler(new KbsAuthenticationSuccessHandler())
-                .failureHandler(new KbsAuthenticationFailureHandler())
+                .successHandler(kbsAuthenticationSuccessHandler)
+                .failureHandler(kbsAuthenticationFailureHandler)
                 .and()
                 // 登出配置
                 .logout()
-                .logoutSuccessHandler(new KbsLogoutSuccessHandler())
+                .logoutSuccessHandler(kbsLogoutSuccessHandler)
                 // .deleteCookies(jwtConfig.getAuthHeader())
                 .permitAll().and()
-                .addFilter(new KbsJwtAuthorizationFilter(authenticationManager()))
+                .addFilterAfter(kbsJwtAuthorizationFilter, BasicAuthenticationFilter.class)
                 // jwt不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

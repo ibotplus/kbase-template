@@ -2,14 +2,15 @@ package com.eastrobot.kbs.template.auth;
 
 import com.eastrobot.kbs.template.config.JwtConfig;
 import com.eastrobot.kbs.template.exception.ResponseEntity;
-import com.eastrobot.kbs.template.util.EnvironmentUtil;
 import com.eastrobot.kbs.template.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,11 +21,14 @@ import java.util.concurrent.TimeUnit;
  * 处理验证成功的handler
  */
 @Slf4j
+@Component
 public class KbsAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private JwtConfig jwtConfig = EnvironmentUtil.ofCtx().getBean(JwtConfig.class);
+    @Resource
+    private JwtConfig jwtConfig;
 
-    private RedisTemplate redisTemplate = EnvironmentUtil.ofCtx().getBean(RedisTemplate.class);
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
