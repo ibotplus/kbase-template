@@ -1,4 +1,4 @@
-package com.eastrobot.kbs.template.module.system.controller;
+package com.eastrobot.kbs.template.web.controller;
 
 import com.eastrobot.kbs.common.version.ApiVersion;
 import io.swagger.annotations.Api;

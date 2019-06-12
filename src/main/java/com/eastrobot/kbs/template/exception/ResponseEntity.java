@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.io.Serializable;
 
 /**
- * wrapper for error customize response entity
+ * wrapper for response entity
  *
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
  * @version v1.0 , 2019-03-02 12:10
@@ -23,8 +23,9 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "错误响应实体")
-public class ErrorEntity implements Serializable {
+@ApiModel(description = "响应数据")
+public class ResponseEntity<T> implements Serializable {
+
     /**
      * response result code, not http response code
      */
@@ -44,24 +45,37 @@ public class ErrorEntity implements Serializable {
     private String explanation = "";
 
     /**
-     * common failure response entity with detail failure message
+     * response result data
      */
-    public static ErrorEntity of(String explanation) {
-        return new ErrorEntity().setCode(ErrorCode.FAILURE.code).setMeaning(ErrorCode.FAILURE.meaning).setExplanation(explanation);
+    @ApiModelProperty("响应主体")
+    private T data;
+
+    /**
+     * common success response entity
+     */
+    public static <T> ResponseEntity<T> ofSuccess(T data) {
+        return new ResponseEntity<T>().setCode(ResultCode.SUCCESS.code).setMeaning(ResultCode.SUCCESS.meaning).setData(data);
     }
 
     /**
-     * common failure response entity with detail failure message and detail failure code
+     * common failure response entity with detail failure message
      */
-    public static ErrorEntity of(String code, String explanation) {
-        return new ErrorEntity().setCode(code).setExplanation(explanation);
+    public static ResponseEntity ofFailure(String explanation) {
+        return new ResponseEntity().setCode(ResultCode.FAILURE.code).setMeaning(ResultCode.FAILURE.code).setExplanation(explanation);
     }
 
     /**
      * common failure response entity with ResultCode and detail explanation
      */
-    public static ErrorEntity of(ErrorCode errorCode, String explanation) {
-        return new ErrorEntity().setCode(errorCode.code).setMeaning(errorCode.meaning).setExplanation(explanation);
+    public static ResponseEntity ofFailure(ResultCode resultCode) {
+        return new ResponseEntity().setCode(resultCode.code).setMeaning(resultCode.meaning);
+    }
+
+    /**
+     * common failure response entity with ResultCode and detail explanation
+     */
+    public static ResponseEntity ofFailure(ResultCode resultCode, String explanation) {
+        return new ResponseEntity().setCode(resultCode.code).setMeaning(resultCode.meaning).setExplanation(explanation);
     }
 
     @Override
