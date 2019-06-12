@@ -1,4 +1,4 @@
-package com.eastrobot.kbs.template.module.base.model.vo;
+package com.eastrobot.kbs.template.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

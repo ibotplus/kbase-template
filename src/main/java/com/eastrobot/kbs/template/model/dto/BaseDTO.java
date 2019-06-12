@@ -1,4 +1,4 @@
-package com.eastrobot.kbs.template.module.base.model.dto;
+package com.eastrobot.kbs.template.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
