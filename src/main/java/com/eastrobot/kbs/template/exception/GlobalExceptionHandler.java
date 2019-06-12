@@ -2,7 +2,6 @@ package com.eastrobot.kbs.template.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,7 +26,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ValidationException.class, MethodArgumentNotValidException.class})
     public ResponseEntity validateExceptionHandler(Exception ex) {
         ex.printStackTrace();
-        return ResponseEntity.badRequest().body(ErrorEntity.of(ErrorCode.PARAMETER_VALIDATE_FAILED, ex.getMessage()));
+        return ResponseEntity.ofFailure(ResultCode.PARAMETER_VALIDATE_FAILED, ex.getMessage());
     }
 
     /**
@@ -36,7 +35,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity controllerExceptionHandler(ApiException ex) {
         ex.printStackTrace();
-        return ResponseEntity.badRequest().body(ErrorEntity.of(ErrorCode.API_CALLED_FAILED, ex.getMessage()));
+        return ResponseEntity.ofFailure(ResultCode.API_CALLED_FAILED, ex.getMessage());
     }
 
     /**
@@ -44,7 +43,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity businessExceptionHandler(BusinessException ex) {
-        return ResponseEntity.badRequest().body(ErrorEntity.of(ErrorCode.BUSINESS_EXECUTE_FAILED, ex.getMessage()));
+        return ResponseEntity.ofFailure(ResultCode.BUSINESS_EXECUTE_FAILED, ex.getMessage());
     }
 
     /**
@@ -53,7 +52,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WrongEntityIdException.class)
     public ResponseEntity wrongEntityIdException(WrongEntityIdException ex) {
         ex.printStackTrace();
-        return ResponseEntity.badRequest().body(ErrorEntity.of(ErrorCode.WRONG_ENTITY_ID_EXCEPTION, ex.getMessage()));
+        return ResponseEntity.ofFailure(ResultCode.WRONG_ENTITY_ID_EXCEPTION, ex.getMessage());
     }
 
     /**
@@ -62,16 +61,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DaoException.class)
     public ResponseEntity databaseExceptionHandler(DaoException ex) {
         ex.printStackTrace();
-        return ResponseEntity.badRequest().body(ErrorEntity.of(ErrorCode.DATABASE_OPERATED_FAILED, ex.getMessage()));
+        return ResponseEntity.ofFailure(ResultCode.DATABASE_OPERATED_FAILED, ex.getMessage());
     }
-
     /**
      * 其他未定义异常
      */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity undefinedExceptionHandler(RuntimeException ex, HttpServletRequest request) {
         ex.printStackTrace();
-        return ResponseEntity.badRequest().body(ErrorEntity.of(ex.getCause().getMessage()));
+        return ResponseEntity.ofFailure(ResultCode.UNDEFINED_SERVER_EXCEPTION, ex.getMessage());
     }
 
 }

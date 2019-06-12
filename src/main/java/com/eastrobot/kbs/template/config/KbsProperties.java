@@ -16,5 +16,4 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties("kbs")
 public class KbsProperties {
-
 }
