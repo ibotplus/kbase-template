@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,24 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-    // /**
-    //  * // TODO add by Yogurt_lei at 2019-03-15 21:08: 实际使用不要明文 替换
-    //  */
-    // @Bean
-    // public PasswordEncoder passwordEncoder() {
-    //     return new PasswordEncoder() {
-    //         @Override
-    //         public String encode(CharSequence rawPassword) {
-    //             return rawPassword.toString();
-    //         }
-    //
-    //         @Override
-    //         public boolean matches(CharSequence rawPassword, String encodedPassword) {
-    //             return true;
-    //         }
-    //     };
-    // }
 
     @Override
     public void configure(WebSecurity web) {

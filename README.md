@@ -15,7 +15,10 @@
 
 至此,完成项目的初始化工作.
 
-### 2. 包结构说明
+### 2. SpringSecurity with JWT
+修改`KbsUserDetailsService` 中数据用户接入部分
+
+### 3. 包结构说明
 ```markdown
 src.
 ├─main
