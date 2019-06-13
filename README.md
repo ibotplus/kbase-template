@@ -2,6 +2,13 @@
 
 依赖公共pom (`kbase-pom`) 公用组件 (`kbase-common`) 统一版本的模版项目
 
+>
+[![Build Status](https://travis-ci.org/Yogurt-lei/kbase-template.svg?branch=develop)](https://travis-ci.org/Yogurt-lei/kbase-template)
+![license](https://img.shields.io/github/license/mashape/apistatus.svg)
+![SpringBoot 2.1.5-RELEASE](https://img.shields.io/badge/SpringBoot-2.1.5--RELEASE-green.svg)
+![Java v1.8](https://img.shields.io/badge/Java-v1.8.0__162-blue.svg)
+![Maven v3.5.3](https://img.shields.io/badge/Maven-v3.5.3-blue.svg)
+
 
 ### 1. 依次执行以下操作完成项目初始化工作
 
