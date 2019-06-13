@@ -3,7 +3,7 @@ package com.eastrobot.kbs.template.auth;
 import com.eastrobot.kbs.template.exception.ResponseEntity;
 import com.eastrobot.kbs.template.exception.ResultCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +26,7 @@ public class KbsAuthenticationFailureHandler implements AuthenticationFailureHan
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
 
-        ResultCode resultCode = ResultCode.AUTH_UNKNOWN_AUTHENTICATE;
+        ResultCode resultCode = ResultCode.UNDEFINED_SERVER_EXCEPTION;
         if (exception instanceof SessionAuthenticationException) {
             // session 限制, 用户重复登录
             resultCode = ResultCode.AUTH_SESSION_AUTHENTICATION;
@@ -36,13 +36,12 @@ public class KbsAuthenticationFailureHandler implements AuthenticationFailureHan
         } else if (exception instanceof BadCredentialsException) {
             // 密码错误
             resultCode = ResultCode.AUTH_BAD_CREDENTIALS;
+        } else if (exception instanceof AccountStatusException) {
+            // 账户状态异常
+            resultCode = ResultCode.AUTH_ABNORMAL_ACCOUNT_STATUS;
         }
 
-        log.error("AuthenticationFailureHandler: {}", exception.getMessage());
-
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.getWriter().print(ResponseEntity.ofFailure(resultCode, exception.getMessage()));
-        response.getWriter().flush();
+        AuthUtil.flushResponse(response, ResponseEntity.ofFailure(resultCode, exception.getMessage()));
     }
 
 }

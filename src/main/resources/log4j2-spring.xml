@@ -5,7 +5,6 @@
         <Property name="PATTERN_MSG">[%d{HH:mm:ss:SSS}] [%p] - %c{1.}.%M(%F:%L) - %m%n</Property>
     </Properties>
 
-
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
@@ -79,5 +78,6 @@
 
         <Logger name="com.eastrobot" level="DEBUG"/>
         <logger name="org.springframework" level="info" additivity="true"/>
+        <logger name=" org.springframework.security" level="debug" additivity="true"/>
     </Loggers>
 </Configuration>
