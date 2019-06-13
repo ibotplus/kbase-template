@@ -17,7 +17,7 @@ import javax.validation.ValidationException;
  * @version v1.0 , 2018-09-05 10:05
  */
 @Slf4j
-@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ResponseStatus(HttpStatus.OK)
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /**

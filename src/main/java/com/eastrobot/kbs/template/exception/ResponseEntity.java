@@ -54,7 +54,7 @@ public class ResponseEntity<T> implements Serializable {
      * common success response entity
      */
     public static <T> ResponseEntity<T> ofSuccess(T data) {
-        return new ResponseEntity<T>().setCode(ResultCode.SUCCESS.code).setMeaning(ResultCode.SUCCESS.meaning).setData(data);
+        return new ResponseEntity<T>().setCode(ResultCode.OK.code).setMeaning(ResultCode.OK.meaning).setData(data);
     }
 
     /**

@@ -1,22 +1,21 @@
 package com.eastrobot.kbs.template.config;
 
-import com.eastrobot.kbs.template.auth.KbsAuthenticationFailureHandler;
-import com.eastrobot.kbs.template.auth.KbsAuthenticationSuccessHandler;
-import com.eastrobot.kbs.template.auth.KbsLogoutSuccessHandler;
+import com.eastrobot.kbs.template.auth.KbsUserDetailsService;
 import com.eastrobot.kbs.template.auth.filter.KbsJwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -28,22 +27,24 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationProvider KbsAuthenticationProvider;
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
-    private KbsAuthenticationSuccessHandler kbsAuthenticationSuccessHandler;
-
-    @Autowired
-    private KbsAuthenticationFailureHandler kbsAuthenticationFailureHandler;
-
-    @Autowired
-    private KbsLogoutSuccessHandler kbsLogoutSuccessHandler;
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Autowired
     private KbsJwtAuthorizationFilter kbsJwtAuthorizationFilter;
+
+    @Autowired
+    private KbsUserDetailsService kbsUserDetailsService;
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     public void configure(WebSecurity web) {
@@ -52,20 +53,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 提供内存鉴权用户访问swagger
-        auth.inMemoryAuthentication().withUser("swagger").password("swagger").roles("USER");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and()
                 .httpBasic()
                 .and()
+                // csrf
                 .csrf().disable()
-                .authenticationProvider(KbsAuthenticationProvider)
-                // .exceptionHandling()
+                // X-Frame-Options default is deny
+                .headers().frameOptions().sameOrigin()
+                .and()
+                .userDetailsService(kbsUserDetailsService)
                 .anonymous().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
@@ -73,12 +71,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 登录配置
                 .formLogin()
-                .successHandler(kbsAuthenticationSuccessHandler)
-                .failureHandler(kbsAuthenticationFailureHandler)
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 // 登出配置
                 .logout()
-                .logoutSuccessHandler(kbsLogoutSuccessHandler)
+                .logoutSuccessHandler(logoutSuccessHandler)
                 // .deleteCookies(jwtConfig.getAuthHeader())
                 .permitAll().and()
                 .addFilterAfter(kbsJwtAuthorizationFilter, BasicAuthenticationFilter.class)

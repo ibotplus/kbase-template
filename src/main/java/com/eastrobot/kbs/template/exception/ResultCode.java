@@ -3,18 +3,27 @@ package com.eastrobot.kbs.template.exception;
 import io.swagger.annotations.ApiModel;
 
 /**
+ * <pre>
  * global response code and it's meaning,
  * {@link GlobalExceptionHandler}
  *
+ * NOTE: 3字码,1xxx的四字码保留, 具体需要提醒用户的异常信息从2xxx开始
+ * </pre>
+ *
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
  * @version v1.0 , 2019-03-02 16:03
+ * @see org.springframework.web.client.HttpClientErrorException.BadRequest
  */
 @ApiModel
 public enum ResultCode {
     /**
      * request handle success
      */
-    SUCCESS("0", "SUCCESS"),
+    OK("200", "OK"),
+    /**
+     * 404 NOT FOUND
+     */
+    PAGE_NOT_FOUND("404", "404 NOT FOUND"),
     /**
      * general failure, not recommended to use it
      */
@@ -48,37 +57,49 @@ public enum ResultCode {
      */
     UNDEFINED_SERVER_EXCEPTION("9999", "UNDEFINED SERVER EXCEPTION"),
 
+    //**********************************************************************
+    //*************** biz exception response error code start **************
+    //**********************************************************************
+    BIZ_DETAIL_EXCEPTION("2xxx", "具体需要提醒用户的异常信息从2xxx开始"),
+    //**********************************************************************
+    //*************** biz exception response error code end **************
+    //**********************************************************************
+
     //*********************************************************
     //*************** login authentication start **************
     //*********************************************************
     /**
-     * SESSION AUTHENTICATION EXCEPTION
+     * SESSION AUTHENTICATION EXCEPTION/ SESSION LIMIT
      */
     AUTH_SESSION_AUTHENTICATION("100", "SESSION AUTHENTICATION EXCEPTION"),
     /**
-     * USERNAME NOT FOUND EXCEPTION
+     * USER UNAUTHORIZED
      */
-    AUTH_USERNAME_NOT_FOUND("101", "USERNAME NOT FOUND EXCEPTION"),
+    AUTH_USER_UNAUTHORIZED("101", "USER UNAUTHORIZED"),
+    /**
+     * USER NOT FOUND
+     */
+    AUTH_USERNAME_NOT_FOUND("102", "USERNAME NOT FOUND EXCEPTION"),
     /**
      * BAD CREDENTIALS EXCEPTION
      */
-    AUTH_BAD_CREDENTIALS("102", "BAD CREDENTIALS EXCEPTION"),
+    AUTH_BAD_CREDENTIALS("103", "BAD CREDENTIALS EXCEPTION"),
     /**
      * UNKNOWN AUTHENTICATE EXCEPTION
      */
-    AUTH_UNKNOWN_AUTHENTICATE("103", "UNKNOWN AUTHENTICATE EXCEPTION"),
+    AUTH_ABNORMAL_ACCOUNT_STATUS("104", "ABNORMAL ACCOUNT STATUS"),
     /**
      * jwt: user logout
      */
-    JWT_USER_LOGOUT("104", "USER LOGOUT"),
+    JWT_USER_LOGOUT("105", "USER LOGOUT"),
     /**
      * jwt: renew token
      */
-    JWT_RENEW_TOKEN("105", "RENEW TOKEN"),
+    JWT_RENEW_TOKEN("106", "RENEW TOKEN"),
     /**
      * jwt: illegal token
      */
-    JWT_ILLEGAL_TOKEN("106", "ILLEGAL TOKEN");
+    JWT_ILLEGAL_TOKEN("107", "ILLEGAL TOKEN");
     //*********************************************************
     //*************** login authentication end ****************
     //*********************************************************
