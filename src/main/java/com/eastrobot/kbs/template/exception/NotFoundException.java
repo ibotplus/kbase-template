@@ -19,6 +19,6 @@ public class NotFoundException implements ErrorController {
 
     @RequestMapping("/error")
     public ResponseEntity error(HttpServletRequest request) {
-        return ResponseEntity.ofFailure(ResultCode.AUTH_USERNAME_NOT_FOUND);
+        return ResponseEntity.ofFailure(ResultCode.PAGE_NOT_FOUND);
     }
 }

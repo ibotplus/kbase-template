@@ -79,7 +79,7 @@ public enum ResultCode {
     /**
      * USER NOT FOUND
      */
-    AUTH_USERNAME_NOT_FOUND("102", "USERNAME NOT FOUND EXCEPTION"),
+    AUTH_USER_NOT_FOUND("102", "USER NOT FOUND EXCEPTION"),
     /**
      * BAD CREDENTIALS EXCEPTION
      */
