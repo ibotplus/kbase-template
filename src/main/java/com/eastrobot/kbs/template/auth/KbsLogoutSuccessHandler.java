@@ -38,7 +38,7 @@ public class KbsLogoutSuccessHandler implements LogoutSuccessHandler {
                     .map(Claims::getId)
                     .ifPresent(s -> redisTemplate.delete(s));
 
-            AuthUtil.flushResponse(response, ResponseEntity.ofSuccess(ResultCode.JWT_USER_LOGOUT.meaning));
+            AuthUtil.flushResponse(response, ResponseEntity.ofSuccess(true));
         } catch (Exception e) {
             log.error("on logout with error: {}", e.getMessage());
             AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_ILLEGAL_TOKEN, e.getMessage()));

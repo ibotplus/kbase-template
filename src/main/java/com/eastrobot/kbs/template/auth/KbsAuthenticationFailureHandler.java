@@ -32,7 +32,7 @@ public class KbsAuthenticationFailureHandler implements AuthenticationFailureHan
             resultCode = ResultCode.AUTH_SESSION_AUTHENTICATION;
         } else if (exception instanceof UsernameNotFoundException) {
             // 用户不存在
-            resultCode = ResultCode.AUTH_USERNAME_NOT_FOUND;
+            resultCode = ResultCode.AUTH_USER_NOT_FOUND;
         } else if (exception instanceof BadCredentialsException) {
             // 密码错误
             resultCode = ResultCode.AUTH_BAD_CREDENTIALS;
