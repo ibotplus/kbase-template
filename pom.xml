@@ -19,7 +19,7 @@
         <jjwt.version>0.9.1</jjwt.version>
     </properties>
     <dependencies>
-        <!-- 基础依赖 validation swagger lombok test configuration-processor已在父级引入 -->
+        <!-- 基础依赖:validation, swagger, lombok, spring-test, configuration-processor, apache-commons相关依赖已引入 -->
         <dependency>
             <groupId>com.eastrobot.kbs</groupId>
             <artifactId>kbase-common</artifactId>

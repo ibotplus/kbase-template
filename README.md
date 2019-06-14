@@ -10,21 +10,40 @@
 ![Maven v3.5.3](https://img.shields.io/badge/Maven-v3.5.3-blue.svg)
 
 
-### 1. 依次执行以下操作完成项目初始化工作
+### 1. 初始化项目
 
 1. `git clone {remote-url}` 本仓库, 
 2. 删除.git文件夹 修改`template`为项目包名 修改`SwaggerConfig`中的描述
 3. `git init` 初始化仓库 
 4. `git add .`暂存所有提交 
 5. `git commit -m 'msg'` 提交本次暂存 
-6. `git remote add origin {remote-url}` 关联远程仓库
+6. `git remote add origin {remote-url}` 关联你项目的仓库
 7. `git push` 推送本次提交
+8. 修改 `log4j-spring.xml` 中 `LOG_HOME` 为项目名
 
-至此,完成项目的初始化工作.
 
-### 2. SpringSecurity with JWT
+### 2. Spring Security with JWT
 修改`KbsUserDetailsService` 中数据用户接入部分
-登录接口为
+> 登录接口 `curl -X POST "http://localhost:8000/${context-path}/login?username=&password="` 
+
+> 登出接口 `curl -X POST "http://localhost:8000/${context-path}/logout -H "Authorization: {Bearer token}` 
+
+**在未通过登录接口获取token之前,调用其他任何接口都是未授权,登录成功后token作为后续请求中HEADER的Authorization:{token}部分携带**
+
+> 登录鉴权过程中的响应码说明 (均为3字码)
+
+
+| 响应码  | 响应码含义                                                   |
+| :-----: | :----------------------------------------------------------- |
+|   100   | 暂未使用,保留为单点登录使用                                  |
+|   101   | 用户未授权(应该先登录/login获取到token)                      |
+|   102   | 用户不存在                                                   |
+|   103   | 用户密码校验失败                                             |
+|   104   | 用户账号异常(账号锁定,账号失效等)                            |
+| **105** | 用户已经登出(该token不再有效)                                |
+| **106** | token快到期,续签token(前端在请求结果中全局处理,如果得到该响应码,替换cookie中的原有token) |
+| **107** | token非法(已过期,不正确等)                                   |
+
 
 ### 3. 包结构说明
 ```markdown
