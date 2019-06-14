@@ -26,9 +26,9 @@
 修改`KbsUserDetailsService` 中数据用户接入部分
 > 登录接口 `curl -X POST "http://localhost:8000/${context-path}/login?username=&password="` 
 
-> 登出接口 `curl -X POST "http://localhost:8000/${context-path}/logout -H "Authorization: {Bearer token}` 
+> 登出接口 `curl -X POST "http://localhost:8000/${context-path}/logout" -H "Authorization: {Bearer token}"` 
 
-**在未通过登录接口获取token之前,调用其他任何接口都是未授权,登录成功后token作为后续请求中HEADER的Authorization:{token}部分携带**
+**在未通过登录接口获取token之前,调用其他任何接口都是未授权,登录成功后token作为后续请求中Header的Authorization:{token}部分携带**
 
 > 登录鉴权过程中的响应码说明 (均为3字码)
 
