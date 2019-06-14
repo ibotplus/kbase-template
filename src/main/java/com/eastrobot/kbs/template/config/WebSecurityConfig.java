@@ -2,6 +2,8 @@ package com.eastrobot.kbs.template.config;
 
 import com.eastrobot.kbs.template.auth.KbsUserDetailsService;
 import com.eastrobot.kbs.template.auth.filter.KbsJwtAuthorizationFilter;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -42,8 +44,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private KbsUserDetailsService kbsUserDetailsService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder md5PasswordEncoder() {
+        return new PasswordEncoder() {
+
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return DigestUtils.md5Hex(rawPassword.toString());
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return StringUtils.equals(rawPassword, encodedPassword);
+            }
+        };
     }
 
     @Override
