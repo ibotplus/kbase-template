@@ -39,9 +39,9 @@ public class CodeGenerator {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
+        String basePackage = "com.eastrobot.kbs.template";
         String projectPath = System.getProperty("user.dir");
         String currentUser = System.getProperty("user.name");
-        String basePackage = "com.eastrobot.kbs.template";
         // 全局配置
         mpg.setGlobalConfig(
                 new GlobalConfig()
@@ -91,34 +91,18 @@ public class CodeGenerator {
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
-        /*
-        cfg.setFileCreate(new IFileCreate() {
-            @Override
-            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                // 判断自定义文件夹是否需要创建
-                checkDir("调用默认方法创建的目录");
-                return false;
-            }
-        });
-        */
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
         // 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
-
-        // 配置自定义输出模板
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        // templateConfig.setEntity("templates/entity2.java");
-        // templateConfig.setService();
-        // templateConfig.setController();
-
-        mpg.setTemplate(templateConfig);
+        mpg.setTemplate(new TemplateConfig());
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+        // 这些字段来自父类
         strategy.setSuperEntityColumns("id", "createDate", "modifyDate", "createUser", "modifyUser", "delFlag");
         strategy.setSuperEntityClass(basePackage + ".model.entity.BaseEntity");
         strategy.setSuperControllerClass(basePackage + ".web.controller.BaseController");
@@ -127,7 +111,9 @@ public class CodeGenerator {
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
+        // 该表前缀是什么, 在生成实体时去除前缀
         strategy.setTablePrefix("DEV_");
+        // 逻辑删除标示
         strategy.setLogicDeleteFieldName("delFlag");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
