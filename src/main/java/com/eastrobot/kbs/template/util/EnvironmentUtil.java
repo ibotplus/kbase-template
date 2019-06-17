@@ -3,6 +3,7 @@ package com.eastrobot.kbs.template.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,5 +21,9 @@ public class EnvironmentUtil implements ApplicationContextAware {
 
     public static ApplicationContext ofCtx() {
         return CTX;
+    }
+
+    public static String ofUid() {
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
     }
 }

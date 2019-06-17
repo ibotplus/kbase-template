@@ -39,7 +39,6 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
     @Resource
     private RedisTemplate redisTemplate;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {

@@ -16,12 +16,12 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * swagger2 config when active profile is dev will show swagger-ui page, otherwise not show
+ * swagger2 config when active profile is dev or test will show swagger-ui page, otherwise not show
  *
  * @author Yogurt_lei
  * @date 2019-06-05 11:36
  */
-@Profile("dev")
+@Profile({"dev", "test"})
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
