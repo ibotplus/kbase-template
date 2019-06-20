@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import com.eastrobot.kbs.common.version.ApiVersion;
 
 /**
  * <p>
@@ -20,6 +24,9 @@ import ${superControllerClassPackage};
  * @author ${author}
  * @since ${date}
  */
+ @Api(description = "${table.comment!}接口")
+ @ApiVersion
+ @Validated
 <#if restControllerStyle>
 @RestController
 <#else>
@@ -30,7 +37,7 @@ import ${superControllerClassPackage};
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
+public class ${table.controllerName} implements ${superControllerClass} {
 <#else>
 public class ${table.controllerName} {
 </#if>
