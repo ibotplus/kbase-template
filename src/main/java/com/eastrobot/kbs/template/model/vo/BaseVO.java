@@ -27,9 +27,6 @@ public class BaseVO implements Serializable {
     @ApiModelProperty("id")
     private String id;
 
-    @NotEmpty(groups = Create.class)
-    @ApiModelProperty(value = "value", position = 2)
-    private String value;
 
     public interface Create {
     }

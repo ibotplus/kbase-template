@@ -1,5 +1,6 @@
 package com.eastrobot.kbs.template.exception;
 
+import com.eastrobot.kbs.template.model.entity.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -2,8 +2,8 @@ package com.eastrobot.kbs.template.auth.filter;
 
 import com.eastrobot.kbs.template.auth.AuthUtil;
 import com.eastrobot.kbs.template.config.JwtConfig;
-import com.eastrobot.kbs.template.exception.ResponseEntity;
 import com.eastrobot.kbs.template.exception.ResultCode;
+import com.eastrobot.kbs.template.model.entity.ResponseEntity;
 import com.eastrobot.kbs.template.util.JwtUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 鉴权过滤器
@@ -47,44 +48,44 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
                 .filter(StringUtils::isNotBlank)
                 .filter(v -> StringUtils.startsWithIgnoreCase(v, jwtConfig.getTokenHead()));
 
-        if (!jwtOpt.isPresent()) {
-            log.warn("user not login: {} ", ResultCode.AUTH_USER_UNAUTHORIZED);
-            AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.AUTH_USER_UNAUTHORIZED));
-            return;
+        if (jwtOpt.isPresent()) {
+            String jwt = jwtOpt.get();
+
+            // 1. 校验jwt
+            String userId;
+            try {
+                Claims claims = JwtUtil.ofClaims(jwt);
+                userId = claims.getId();
+            } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException | ExpiredJwtException e) {
+                log.warn("jwt illegal: {} ", e.getMessage());
+                AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_ILLEGAL_TOKEN, e.getMessage()));
+                return;
+            }
+
+            // 2. 不存在的jwt 用户已退出
+            if (!Optional.ofNullable(redisTemplate.opsForValue().get(userId)).isPresent()) {
+                log.warn("jwt not exist, user may logout");
+                AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_USER_LOGOUT));
+                return;
+            }
+
+            // 3. 是否续签token
+            Optional<String> renewOpt = JwtUtil.renewJwt(jwt);
+            if (renewOpt.isPresent()) {
+                log.info("{} jwt has expired, renew jwt", userId);
+                redisTemplate.opsForValue().set(userId, jwt);
+                redisTemplate.expire(userId, jwtConfig.getExpireInMinute(), TimeUnit.MINUTES);
+                AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_RENEW_TOKEN, renewOpt.get()));
+                return;
+            }
+
+            // 4. 构造令牌 成功登录
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId,
+                    null, new ArrayList<>());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
 
-        String jwt = jwtOpt.get();
-
-        // 1. 校验jwt
-        String userId;
-        try {
-            Claims claims = JwtUtil.ofClaims(jwt);
-            userId = claims.getId();
-        } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException | ExpiredJwtException e) {
-            log.warn("jwt illegal: {} ", e.getMessage());
-            AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_ILLEGAL_TOKEN, e.getMessage()));
-            return;
-        }
-
-        // 2. 不存在的jwt 用户已退出
-        if (!Optional.ofNullable(redisTemplate.opsForValue().get(userId)).isPresent()) {
-            log.warn("jwt not exist, user may logout");
-            AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_USER_LOGOUT));
-            return;
-        }
-
-        // 3. 是否续签token
-        Optional<String> renewOpt = JwtUtil.renewJwt(jwt);
-        if (renewOpt.isPresent()) {
-            AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_RENEW_TOKEN, renewOpt.get()));
-            return;
-        }
-
-        // 4. 构造令牌 成功登录
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId,
-                null, new ArrayList<>());
-
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        super.doFilter(request, response, chain);
+        chain.doFilter(request, response);
     }
 }

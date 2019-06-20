@@ -21,9 +21,49 @@ public enum ResultCode {
      */
     OK("200", "OK"),
     /**
+     * USER UNAUTHORIZED
+     */
+    UNAUTHORIZED("401", "UNAUTHORIZED"),
+    /**
      * 404 NOT FOUND
      */
     PAGE_NOT_FOUND("404", "404 NOT FOUND"),
+
+    //*********************************************************
+    //*************** login authentication start **************
+    //*********************************************************
+    /**
+     * SESSION AUTHENTICATION EXCEPTION/ SESSION LIMIT
+     */
+    AUTH_SESSION_AUTHENTICATION("0100", "SESSION AUTHENTICATION EXCEPTION"),
+    /**
+     * USER NOT FOUND
+     */
+    AUTH_USER_NOT_FOUND("0102", "USER NOT FOUND EXCEPTION"),
+    /**
+     * BAD CREDENTIALS EXCEPTION
+     */
+    AUTH_BAD_CREDENTIALS("0103", "BAD CREDENTIALS EXCEPTION"),
+    /**
+     * UNKNOWN AUTHENTICATE EXCEPTION
+     */
+    AUTH_ABNORMAL_ACCOUNT_STATUS("0104", "ABNORMAL ACCOUNT STATUS"),
+    /**
+     * jwt: user logout
+     */
+    JWT_USER_LOGOUT("0105", "USER LOGOUT"),
+    /**
+     * jwt: renew token
+     */
+    JWT_RENEW_TOKEN("0106", "RENEW TOKEN"),
+    /**
+     * jwt: illegal token
+     */
+    JWT_ILLEGAL_TOKEN("0107", "ILLEGAL TOKEN"),
+    //*********************************************************
+    //*************** login authentication end ****************
+    //*********************************************************
+
     /**
      * general failure, not recommended to use it
      */
@@ -56,53 +96,13 @@ public enum ResultCode {
      * undefined server exception
      */
     UNDEFINED_SERVER_EXCEPTION("9999", "UNDEFINED SERVER EXCEPTION"),
-
     //**********************************************************************
     //*************** biz exception response error code start **************
     //**********************************************************************
-    BIZ_DETAIL_EXCEPTION("2xxx", "具体需要提醒用户的异常信息从2xxx开始"),
+    BIZ_DETAIL_EXCEPTION("2xxx", "具体需要提醒用户的异常信息从2xxx开始");
     //**********************************************************************
     //*************** biz exception response error code end **************
     //**********************************************************************
-
-    //*********************************************************
-    //*************** login authentication start **************
-    //*********************************************************
-    /**
-     * SESSION AUTHENTICATION EXCEPTION/ SESSION LIMIT
-     */
-    AUTH_SESSION_AUTHENTICATION("100", "SESSION AUTHENTICATION EXCEPTION"),
-    /**
-     * USER UNAUTHORIZED
-     */
-    AUTH_USER_UNAUTHORIZED("101", "USER UNAUTHORIZED"),
-    /**
-     * USER NOT FOUND
-     */
-    AUTH_USER_NOT_FOUND("102", "USER NOT FOUND EXCEPTION"),
-    /**
-     * BAD CREDENTIALS EXCEPTION
-     */
-    AUTH_BAD_CREDENTIALS("103", "BAD CREDENTIALS EXCEPTION"),
-    /**
-     * UNKNOWN AUTHENTICATE EXCEPTION
-     */
-    AUTH_ABNORMAL_ACCOUNT_STATUS("104", "ABNORMAL ACCOUNT STATUS"),
-    /**
-     * jwt: user logout
-     */
-    JWT_USER_LOGOUT("105", "USER LOGOUT"),
-    /**
-     * jwt: renew token
-     */
-    JWT_RENEW_TOKEN("106", "RENEW TOKEN"),
-    /**
-     * jwt: illegal token
-     */
-    JWT_ILLEGAL_TOKEN("107", "ILLEGAL TOKEN");
-    //*********************************************************
-    //*************** login authentication end ****************
-    //*********************************************************
 
     public String code;
     public String meaning;

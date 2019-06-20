@@ -1,6 +1,6 @@
 package com.eastrobot.kbs.template.auth;
 
-import com.eastrobot.kbs.template.exception.ResponseEntity;
+import com.eastrobot.kbs.template.model.entity.ResponseEntity;
 import org.springframework.http.MediaType;
 
 import javax.servlet.http.HttpServletResponse;

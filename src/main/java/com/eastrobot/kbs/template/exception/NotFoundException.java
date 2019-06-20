@@ -1,10 +1,9 @@
 package com.eastrobot.kbs.template.exception;
 
+import com.eastrobot.kbs.template.model.entity.ResponseEntity;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
@@ -18,7 +17,7 @@ public class NotFoundException implements ErrorController {
     }
 
     @RequestMapping("/error")
-    public ResponseEntity error(HttpServletRequest request) {
+    public ResponseEntity error() {
         return ResponseEntity.ofFailure(ResultCode.PAGE_NOT_FOUND);
     }
 }

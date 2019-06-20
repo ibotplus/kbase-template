@@ -1,5 +1,6 @@
 package com.eastrobot.kbs.template.config;
 
+import com.eastrobot.kbs.template.auth.KbsAuthenticationEntryPoint;
 import com.eastrobot.kbs.template.auth.KbsUserDetailsService;
 import com.eastrobot.kbs.template.auth.filter.KbsJwtAuthorizationFilter;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -17,8 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -61,18 +62,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        //忽略 swagger
-        web.ignoring().antMatchers("/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**");
+        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and()
-                .httpBasic()
-                .and()
                 // csrf
                 .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(new KbsAuthenticationEntryPoint())
+                .and()
                 // X-Frame-Options default is deny
                 .headers().frameOptions().sameOrigin()
                 .and()
@@ -92,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(logoutSuccessHandler)
                 // .deleteCookies(jwtConfig.getAuthHeader())
                 .permitAll().and()
-                .addFilterAfter(kbsJwtAuthorizationFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(kbsJwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 // jwt不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
