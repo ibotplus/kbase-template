@@ -24,7 +24,7 @@ public class MybatisConfig {
     @Bean
     @Profile({"dev", "test"})
     public PerformanceInterceptor performanceInterceptor() {
-        return new PerformanceInterceptor().setMaxTime(100).setFormat(true).setWriteInLog(true);
+        return new PerformanceInterceptor().setMaxTime(100).setFormat(false).setWriteInLog(true);
     }
 
     /**

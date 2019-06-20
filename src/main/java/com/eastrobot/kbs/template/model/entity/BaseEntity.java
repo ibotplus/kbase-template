@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,8 +29,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ApiModel("base entity")
-@ToString
-@EqualsAndHashCode
 public class BaseEntity implements Serializable {
 
     @ApiModelProperty("id")

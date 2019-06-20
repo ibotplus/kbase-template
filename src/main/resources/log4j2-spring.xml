@@ -77,6 +77,7 @@
         </Root>
 
         <Logger name="com.eastrobot" level="DEBUG"/>
+        <Logger name="com.baomidou" level="DEBUG"/>
         <logger name="org.springframework" level="info" additivity="true"/>
         <logger name=" org.springframework.security" level="debug" additivity="true"/>
     </Loggers>

@@ -1,5 +1,6 @@
-package com.eastrobot.kbs.template.exception;
+package com.eastrobot.kbs.template.model.entity;
 
+import com.eastrobot.kbs.template.exception.ResultCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
