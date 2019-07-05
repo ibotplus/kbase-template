@@ -90,3 +90,35 @@ src.
 ### 4. Mybatis Plus & Code Generator
 
 > `src/test/main 中的 CodeGenerator` 类用于方便的生成Mybatis所需的一些基础代码 Controller, Service, Mapper, mapper.xml, Entity, 让我们直接变成业务驱动吧~
+
+### 5. JPA
+
+> 简单CRUD sample
+
+```java
+    public interface CategoryDao extends BaseRepository<Kbcategory, String> {
+        /**
+         * 查询一级分类 专业知识点下的分类
+         */
+        @Query("from Kbcategory where parent_id=(select id from Kbcategory where name='专业知识点') and name=?1")
+        Kbcategory findCateByName(String name);
+    
+        @Query("from Kbcategory where bh like %:bh%")
+        List<Kbcategory> findCateByBH(@Param("bh") String bh);
+    }
+    
+```
+> 自定义复杂查询实现
+**JPA接口 RaPhysicalFileDao extends BaseRepository<RaphysicalFile, String> {加上你的自定义方法}**
+定制实现 RaPhysicalFileDaoImpl(jpa默认会找实现类,xx+Impl)
+
+> **使用default方法(推荐)**
+
+
+* 注意:
+1. @Query(nativeQuery=true) 可以指定为原生sql查询
+2. @Query(countQuery) 设定统计分页数量的hql or sql, 分页参数必须为Pageable pageable, (see PageUtil.ofSingle等方法)
+当携带此参数时,from Kbcategory where xxx 如果未指定countQuery则必须指定别名 
+否则自动生成count查询 为 select count(where) from Kbcategory where xxx会抛异常
+3. update and delete方法为 @Query+@Modifying+@Transactional
+4. 可以直接findByIdAndCreateTimeLt这种方式 但是参数名太长可能一下看不明白, 可以考虑改成@Query
