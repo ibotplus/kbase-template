@@ -1,0 +1,47 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /kbase-template
+spring:
+  cache:
+    redis:
+      cache-null-values: false
+  # redis support
+  redis:
+    port: 6379
+    host: 172.16.8.139
+    timeout: 3000
+  # hikari support
+  datasource:
+    username: philips
+    password: philips
+    name: hikari
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.16.1.119:3306/philips
+    hikari:
+      connection-timeout: 1800000
+      auto-commit: true
+      max-lifetime: 1800000
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      connection-init-sql: select 1 from dual
+# mybatis 相关配置
+mybatis-plus:
+  mapper-locations: classpath:config/mybatis/mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  config-location: classpath:config/mybatis/mybatis-config.xml
+  type-aliases-package: com.eastrobot.kbs.template.model.entity
+  check-config-location: true
+
+# kbs相关配置
+kbs:
+  jwt:
+    tokenHead: Bearer
+    expireInMinute: 30
+    AuthHeader: Authorization
+    refreshRemainLeftMinute: 5
+    issuer: kbase-jwt
