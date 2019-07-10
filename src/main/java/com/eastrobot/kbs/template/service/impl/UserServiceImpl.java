@@ -21,7 +21,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public Boolean save(UserVO vo) {
         User user = User.builder()
-                .id(vo.getId())
+                // .id(vo.getId())
                 .username(vo.getUsername())
                 .password(vo.getPassword())
                 .mainStationId(vo.getMainStationId())
@@ -34,7 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public Boolean update(UserVO vo) {
         User user = User.builder()
-                .id(vo.getId())
+                // .id(vo.getId())
                 .username(vo.getUsername())
                 .password(vo.getPassword())
                 .mainStationId(vo.getMainStationId())
