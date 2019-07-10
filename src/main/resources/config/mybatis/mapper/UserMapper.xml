@@ -8,14 +8,14 @@
         <result column="USERNAME" property="username"/>
         <result column="PASSWORD" property="password"/>
         <result column="USER_INFO_ID" property="userInfoId"/>
-        <result column="STATUS" property="status"/>
+        <result column="DELFLAG" property="delFlag"/>
         <result column="MAIN_STATION_ID" property="mainStationId"/>
         <result column="VISIT" property="visit"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        ID, USERNAME, PASSWORD, USER_INFO_ID, STATUS, MAIN_STATION_ID, VISIT
+        ID, USERNAME, PASSWORD, USER_INFO_ID, DELFLAG, MAIN_STATION_ID, VISIT
     </sql>
 
 </mapper>

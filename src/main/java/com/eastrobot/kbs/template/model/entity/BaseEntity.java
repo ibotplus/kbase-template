@@ -1,5 +1,6 @@
 package com.eastrobot.kbs.template.model.entity;
 
+import com.baomidou.mybatisplus.annotation.*;
 import com.eastrobot.kbs.template.util.EnvironmentUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * base entity used for wrap datasource pojo
@@ -38,21 +39,26 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(updatable = false)
+    @TableId(value = "ID", type = IdType.UUID)
     @ApiModelProperty("id")
     protected String id;
 
+    @TableField(value = "CREATE_DATE", fill = FieldFill.INSERT)
     @Column(updatable = false)
     @ApiModelProperty("创建时间")
-    protected Date createDate;
+    protected LocalDateTime createDate;
 
+    @TableField(value = "MODIFY_DATE", fill = FieldFill.UPDATE)
     @Column(name = "MODIFY_DATE")
     @ApiModelProperty("修改时间")
-    protected Date modifyDate;
+    protected LocalDateTime modifyDate;
 
+    @TableField(value = "CREATE_USER", fill = FieldFill.INSERT)
     @Column(updatable = false)
     @ApiModelProperty("创建人")
     protected String createUser;
 
+    @TableField(value = "MODIFY_USER", fill = FieldFill.UPDATE)
     @Column(name = "MODIFY_USER")
     @ApiModelProperty("修改人")
     protected String modifyUser;
@@ -60,7 +66,9 @@ public class BaseEntity implements Serializable {
     /**
      * Logic to delete is 1, else is 0
      */
+    @TableLogic
     @Column(name = "DELFLAG")
+    @TableField("DELFLAG")
     @ApiModelProperty("逻辑删除标志")
     protected Integer delFlag;
 
@@ -70,14 +78,14 @@ public class BaseEntity implements Serializable {
         this.createUser = EnvironmentUtil.ofUid();
         this.modifyUser = this.createUser;
         log.debug("异步保存事件 doNothing...");
-        this.createDate = new Date();
+        this.createDate = LocalDateTime.now();
         this.modifyDate = createDate;
     }
 
     @PreUpdate
     public void preUpdate() {
         this.modifyUser = EnvironmentUtil.ofUid();
-        this.modifyDate = new Date();
+        this.modifyDate = LocalDateTime.now();
     }
 
     @Override
