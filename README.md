@@ -64,6 +64,9 @@ src.
                     └─template
 ```
 
+#### 2.1 bean相互转换的工具
+
+> BeanConverter中按照例子定义方法即可，相关demo在test中有例子
 
 ### 3. Spring Security with JWT
 修改`KbsUserDetailsService` 中数据用户接入部分
@@ -123,3 +126,4 @@ src.
 否则自动生成count查询 为 select count(where) from Kbcategory where xxx会抛异常
 3. update and delete方法为 @Query+@Modifying+@Transactional
 4. 可以直接findByIdAndCreateTimeLt这种方式 但是参数名太长可能一下看不明白, 可以考虑改成@Query
+
