@@ -109,11 +109,12 @@ src.
     
 ```
 > 自定义复杂查询实现
-**JPA接口 RaPhysicalFileDao extends BaseRepository<RaphysicalFile, String> {加上你的自定义方法}**
+**JPA接口 RaPhysicalFileDao extends JpaRepository<RaphysicalFile, String> {加上你的自定义方法}**
 定制实现 RaPhysicalFileDaoImpl(jpa默认会找实现类,xx+Impl)
 
 > **使用default方法(推荐)**
 
+> **使用Mybatis（推荐）**
 
 * 注意:
 1. @Query(nativeQuery=true) 可以指定为原生sql查询
