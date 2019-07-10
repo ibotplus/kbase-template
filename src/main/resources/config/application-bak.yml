@@ -1,8 +1,21 @@
+info:
+  app: @project.name@
+  version: @project.version@
+# server configuration
 server:
   port: 8000
   servlet:
     context-path: /kbase-template
 spring:
+  # register to kbase-monitor
+  application:
+    name: @project.name@
+    boot:
+      admin:
+        client:
+          url: http://172.16.46.149:8888/kbase-monitor
+          username: admin
+          password: admin
   cache:
     redis:
       cache-null-values: false
@@ -37,7 +50,7 @@ mybatis-plus:
   type-aliases-package: com.eastrobot.kbs.template.model.entity
   check-config-location: true
 
-# kbs相关配置
+# kbs related configuration
 kbs:
   jwt:
     tokenHead: Bearer
@@ -45,3 +58,15 @@ kbs:
     AuthHeader: Authorization
     refreshRemainLeftMinute: 5
     issuer: kbase-jwt
+# expose info
+management:
+  server:
+    ssl:
+      enabled: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: *
