@@ -73,7 +73,7 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
             Optional<String> renewOpt = JwtUtil.renewJwt(jwt);
             if (renewOpt.isPresent()) {
                 log.info("{} jwt has expired, renew jwt", userId);
-                redisTemplate.opsForValue().set(userId, jwt);
+                redisTemplate.opsForValue().set(userId, renewOpt.get());
                 redisTemplate.expire(userId, jwtConfig.getExpireInMinute(), TimeUnit.MINUTES);
                 AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_RENEW_TOKEN, renewOpt.get()));
                 return;
