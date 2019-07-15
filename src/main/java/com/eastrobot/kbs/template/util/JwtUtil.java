@@ -76,7 +76,7 @@ public class JwtUtil {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiration = LocalDateTime.ofInstant(claims.getExpiration().toInstant(), zoneId);
         boolean needRenew = Duration.between(now, expiration).toMinutes() <= jwtConfig.getRefreshRemainLeftMinute();
-        return Optional.ofNullable(needRenew ? generateJwt(OldJwt) : null);
+        return Optional.ofNullable(needRenew ? generateJwt(claims.getId()) : null);
     }
 
     /**
