@@ -19,8 +19,7 @@
 5. `git commit -m 'msg'` 提交本次暂存 
 6. `git remote add origin {remote-url}` 关联你项目的仓库
 7. `git push` 推送本次提交
-8. 修改 `log4j-spring.xml` 中 `LOG_HOME` 为项目名
-9. 修改 `application.properties` 中的一些配置(例如 扫描的包路径, 数据库连接等)
+8. 修改 `application.properties` 中的一些配置(例如 扫描的包路径, 数据库连接等)
 
 
 ### 2. 包结构说明

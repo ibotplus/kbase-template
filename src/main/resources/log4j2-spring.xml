@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
-        <Property name="LOG_HOME">${sys:user.home}/logs/kbase-template</Property>
+        <Property name="LOG_HOME">${sys:user.home}/logs/${sys:appName}</Property>
         <Property name="PATTERN_MSG">[%d{HH:mm:ss:SSS}] [%p] - %c{1.}.%M(%F:%L) - %m%n</Property>
     </Properties>
 
@@ -76,7 +76,7 @@
             <AppenderRef ref="RollingFileError"/>
         </Root>
 
-        <Logger name="com.eastrobot" level="DEBUG"/>
+        <Logger name="com.eastrobot.kbs" level="DEBUG"/>
         <Logger name="com.baomidou" level="DEBUG"/>
         <logger name="org.springframework" level="info" additivity="true"/>
         <logger name=" org.springframework.security" level="debug" additivity="true"/>
