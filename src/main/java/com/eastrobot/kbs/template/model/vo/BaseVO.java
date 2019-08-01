@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
- * base view object used for wrap frontend request pojo
+ * base view object used for convert frontend request pojo
  *
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
  * @version v1.0 , 2019-04-12 17:25

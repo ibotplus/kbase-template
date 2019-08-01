@@ -5,7 +5,8 @@ import com.eastrobot.kbs.template.exception.BusinessException;
 import com.eastrobot.kbs.template.exception.WrongEntityIdException;
 import com.eastrobot.kbs.template.model.BeanConverter;
 import com.eastrobot.kbs.template.model.entity.BaseEntity;
-import com.eastrobot.kbs.template.model.vo.UserVO;
+import com.eastrobot.kbs.template.model.vo.req.UserReq;
+import com.eastrobot.kbs.template.model.vo.resp.UserResp;
 import com.eastrobot.kbs.template.service.IUserService;
 import com.eastrobot.kbs.template.util.PageUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -34,16 +35,16 @@ public class UserServiceImpl implements IUserService {
     private UserRepository repo;
 
     @Override
-    public String save(UserVO vo) {
-        return Optional.ofNullable(BeanConverter.INSTANCE.fromVO(vo))
+    public String save(UserReq vo) {
+        return Optional.ofNullable(BeanConverter.INSTANCE.convert(vo))
                 .map(v -> repo.save(v))
                 .map(BaseEntity::getId)
                 .orElseThrow(() -> new BusinessException("can't create user"));
     }
 
     @Override
-    public Boolean update(UserVO vo) {
-        return Optional.ofNullable(BeanConverter.INSTANCE.fromVO(vo))
+    public Boolean update(UserReq vo) {
+        return Optional.ofNullable(BeanConverter.INSTANCE.convert(vo))
                 .map(v -> repo.save(v))
                 .map(BaseEntity::getId)
                 .filter(StringUtils::isNotEmpty)
@@ -60,20 +61,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserVO findById(String id) {
+    public UserResp findById(String id) {
         return Optional.ofNullable(repo.findById(id).orElseThrow(WrongEntityIdException::new))
-                .map(BeanConverter.INSTANCE::toVO)
+                .map(BeanConverter.INSTANCE::convert)
                 .get();
     }
 
     @Override
-    public Page<UserVO> pageForUser(PageRequest request) {
+    public Page<UserResp> pageForUser(PageRequest request) {
         return Optional.of(repo.findAll(request))
                 .filter(p -> !p.isEmpty())
                 .map(Slice::getContent)
                 .flatMap(users -> {
-                    List<UserVO> userVoList = users.stream()
-                            .map(BeanConverter.INSTANCE::toVO)
+                    List<UserResp> userVoList = users.stream()
+                            .map(BeanConverter.INSTANCE::convert)
                             .collect(Collectors.toList());
                     return Optional.of(PageUtil.fillPage(userVoList, userVoList.size()));
                 }).orElseGet(PageUtil::emptyPage);

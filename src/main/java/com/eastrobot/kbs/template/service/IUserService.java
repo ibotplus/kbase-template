@@ -1,6 +1,7 @@
 package com.eastrobot.kbs.template.service;
 
-import com.eastrobot.kbs.template.model.vo.UserVO;
+import com.eastrobot.kbs.template.model.vo.req.UserReq;
+import com.eastrobot.kbs.template.model.vo.resp.UserResp;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -14,13 +15,13 @@ import org.springframework.data.domain.PageRequest;
  */
 public interface IUserService {
 
-    String save(UserVO vo);
+    String save(UserReq vo);
 
-    Boolean update(UserVO vo);
+    Boolean update(UserReq vo);
 
     Boolean deleteById(String id);
 
-    UserVO findById(String id);
+    UserResp findById(String id);
 
-    Page<UserVO> pageForUser(PageRequest request);
+    Page<UserResp> pageForUser(PageRequest request);
 }

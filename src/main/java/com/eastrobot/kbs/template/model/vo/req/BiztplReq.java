@@ -1,5 +1,6 @@
-package com.eastrobot.kbs.template.model.vo;
+package com.eastrobot.kbs.template.model.vo.req;
 
+import com.eastrobot.kbs.template.model.vo.BaseVO;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @Builder
 @ApiModel(value="Biztpl对象", description="")
-public class BiztplVO extends BaseVO {
+public class BiztplReq extends BaseVO {
 
     private String name;
 
