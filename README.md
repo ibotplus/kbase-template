@@ -1,4 +1,4 @@
-> 基于springBoot的template项目
+> 基于springBoot的template项目 (JPA)
 
 依赖公共pom (`kbase-pom`) 公用组件 (`kbase-common`) 统一版本的模版项目
 
@@ -35,7 +35,6 @@ src.
 │  │                  ├─aspect                                  ---切面
 │  │                  ├─config                                  ---Configuration 及 Properties
 │  │                  ├─dao                                     ---dao层
-│  │                  │  ├─mapper                               ---Mybatis mapper interface
 │  │                  │  ├─repository                           ---jpa
 │  │                  ├─exception                               ---全局异常捕获及定义异常定义
 │  │                  ├─model                                   ---模型层
@@ -51,8 +50,6 @@ src.
 │  │                     └─servlet                              ---filter listener servlet
 │  └─resources                                                  ---resources
 │      ├─conf                                                   ---相关属性配置 
-│      │  └─mybatis                                             ---mybatis-config
-│      │      └─mapper                                          ---mybatis-mapper
 │      ├─static                                                 ---静态资源 js css images等
 │      └─templates                                              ---thymeleaf freemarker等
 └─test                                                          ---JUnit测试
@@ -115,14 +112,3 @@ src.
 定制实现 RaPhysicalFileDaoImpl(jpa默认会找实现类,xx+Impl)
 
 > **使用default方法(推荐)**
-
-> **使用Mybatis（推荐）**
-
-* 注意:
-1. @Query(nativeQuery=true) 可以指定为原生sql查询
-2. @Query(countQuery) 设定统计分页数量的hql or sql, 分页参数必须为Pageable pageable, (see PageUtil.ofSingle等方法)
-当携带此参数时,from Kbcategory where xxx 如果未指定countQuery则必须指定别名 
-否则自动生成count查询 为 select count(where) from Kbcategory where xxx会抛异常
-3. update and delete方法为 @Query+@Modifying+@Transactional
-4. 可以直接findByIdAndCreateTimeLt这种方式 但是参数名太长可能一下看不明白, 可以考虑改成@Query
-
