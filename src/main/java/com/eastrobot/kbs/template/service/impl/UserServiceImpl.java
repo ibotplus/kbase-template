@@ -6,7 +6,6 @@ import com.eastrobot.kbs.template.exception.WrongEntityIdException;
 import com.eastrobot.kbs.template.model.BeanConverter;
 import com.eastrobot.kbs.template.model.entity.BaseEntity;
 import com.eastrobot.kbs.template.model.vo.UserVO;
-import com.eastrobot.kbs.template.service.BaseService;
 import com.eastrobot.kbs.template.service.IUserService;
 import com.eastrobot.kbs.template.util.PageUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +28,10 @@ import java.util.stream.Collectors;
  * @since 2019-06-19
  */
 @Service
-public class UserServiceImpl extends BaseService<UserRepository> implements IUserService {
+public class UserServiceImpl implements IUserService {
+
+    @Resource
+    private UserRepository repo;
 
     @Override
     public String save(UserVO vo) {

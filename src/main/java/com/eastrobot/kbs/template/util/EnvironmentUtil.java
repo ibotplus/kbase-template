@@ -3,8 +3,12 @@ package com.eastrobot.kbs.template.util;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
@@ -24,6 +28,10 @@ public class EnvironmentUtil implements ApplicationContextAware {
     }
 
     public static String ofUid() {
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        return Optional.ofNullable(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .map(Authentication::getPrincipal)
+                .map(Object::toString)
+                .orElse("");
     }
 }
