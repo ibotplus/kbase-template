@@ -14,12 +14,15 @@ public interface BeanConverter {
     BeanConverter INSTANCE = Mappers.getMapper(BeanConverter.class);
 
     @Mappings({
-            @Mapping(source = "username", target = "username")
     })
     User fromVO(UserVO vo);
+
+    @Mappings({})
+    UserVO toVO(User user);
 
     @Mappings(
             {@Mapping(source = "cateId", target = "cateId")}
     )
     Biztpl fromVO(BiztplVO vo);
+
 }

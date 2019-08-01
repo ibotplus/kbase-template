@@ -15,7 +15,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 
 /**
@@ -57,11 +56,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setClientPasscode("guest");
         */
     }
-
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+    //
+    // @Bean
+    // public ServerEndpointExporter serverEndpointExporter() {
+    //     return new ServerEndpointExporter();
+    // }
 
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registry) {

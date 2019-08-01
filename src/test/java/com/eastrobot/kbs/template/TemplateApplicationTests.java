@@ -1,6 +1,5 @@
 package com.eastrobot.kbs.template;
 
-import com.eastrobot.kbs.template.dao.mapper.UserMapper;
 import com.eastrobot.kbs.template.dao.repository.UserRepository;
 import com.eastrobot.kbs.template.model.BeanConverter;
 import com.eastrobot.kbs.template.model.entity.Biztpl;
@@ -15,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,18 +21,9 @@ public class TemplateApplicationTests {
 
     @Resource
     private UserRepository userRepository;
-    @Resource
-    private UserMapper userMapper;
 
     @Test
     public void contextLoads() {
-        Optional.of(userRepository.findById("402883435f950338015fa3bd4bb90009"))
-                .map(Optional::toString)
-                .ifPresent(System.out::println);
-
-        Optional.ofNullable(userMapper.selectById("402883435f950338015fa3bd4bb90009"))
-                .map(User::toString)
-                .ifPresent(System.out::println);
     }
 
     @Test

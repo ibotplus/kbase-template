@@ -1,79 +1,74 @@
 package com.eastrobot.kbs.template.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 /**
-* <p>
-* 
-* </p>
-*
-* @author yogurt_lei
-* @since 2019-07-10
-*/
+ * <p>
+ *
+ * </p>
+ *
+ * @author yogurt_lei
+ * @since 2019-07-10
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 @Builder
-@ApiModel(value="Biztpl对象", description="")
+@ApiModel(value = "Biztpl对象", description = "")
 public class Biztpl extends BaseEntity {
 
-    @TableId(value = "ID", type = IdType.UUID)
-    private String id;
-
-    @TableField("NAME")
+    @Column(name = "NAME")
     private String name;
 
-    @TableField("CATE_ID")
+    @Column(name = "CATE_ID")
     private String cateId;
 
-    @TableField("HTML_CONTENT")
+    @Column(name = "HTML_CONTENT")
     private String htmlContent;
 
-    @TableField("JSON_CONTENT")
+    @Column(name = "JSON_CONTENT")
     private String jsonContent;
 
-    @TableField("CREATE_DATE")
+    @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
 
-    @TableField("CREATE_USER")
+    @Column(name = "CREATE_USER")
     private String createUser;
 
-    @TableField("MODIFY_DATE")
+    @Column(name = "MODIFY_DATE")
     private LocalDateTime modifyDate;
 
-    @TableField("MODIFY_USER")
+    @Column(name = "MODIFY_USER")
     private String modifyUser;
 
-    @TableField("DELFLAG")
+    @Column(name = "DELFLAG")
     private Integer delflag;
 
-    @TableField("IS_DRAFT")
+    @Column(name = "IS_DRAFT")
     private Integer isDraft;
 
-    @TableField("START_DATE")
+    @Column(name = "START_DATE")
     private LocalDateTime startDate;
 
-    @TableField("END_DATE")
+    @Column(name = "END_DATE")
     private LocalDateTime endDate;
 
-    @TableField("ATTR_COUNT")
+    @Column(name = "ATTR_COUNT")
     private Integer attrCount;
 
-    @TableField("CLASS_COUNT")
+    @Column(name = "CLASS_COUNT")
     private Integer classCount;
 
-    @TableField("STATUS")
+    @Column(name = "STATUS")
     private Integer status;
 
     @Override

@@ -1,43 +1,41 @@
 package com.eastrobot.kbs.template.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
-* <p>
-* 
-* </p>
-*
-* @author yogurt_lei
-* @since 2019-06-19
-*/
+ * <p>
+ *
+ * </p>
+ *
+ * @author yogurt_lei
+ * @since 2019-06-19
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value="User对象")
+@ApiModel(value = "User对象")
 @Builder
 @Entity
 @Table(name = "DEV_USER")
-@TableName("DEV_USER")
-public class User extends BaseEntity  {
+public class User extends BaseEntity {
 
-    @TableField("USERNAME")
+    @Column(name = "USERNAME")
     private String username;
 
-    @TableField("PASSWORD")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @TableField("USER_INFO_ID")
+    @Column(name = "USER_INFO_ID")
     private String userInfoId;
 
     // @TableLogic
@@ -45,10 +43,10 @@ public class User extends BaseEntity  {
     // @TableField("STATUS")
     // private Integer status;
 
-    @TableField("MAIN_STATION_ID")
+    @Column(name = "MAIN_STATION_ID")
     private String mainStationId;
 
-    @TableField("VISIT")
+    @Column(name = "VISIT")
     private String visit;
 
     @Override
