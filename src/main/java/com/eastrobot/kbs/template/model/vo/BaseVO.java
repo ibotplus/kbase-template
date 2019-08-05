@@ -2,8 +2,7 @@ package com.eastrobot.kbs.template.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.validation.annotation.Validated;
@@ -17,16 +16,14 @@ import java.io.Serializable;
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
  * @version v1.0 , 2019-04-12 17:25
  */
-@Getter
-@Setter
+@Data
 @Validated
 @ApiModel
 public class BaseVO implements Serializable {
 
     @NotEmpty(groups = Update.class)
     @ApiModelProperty("id")
-    private String id;
-
+    protected String id;
 
     public interface Create {
     }

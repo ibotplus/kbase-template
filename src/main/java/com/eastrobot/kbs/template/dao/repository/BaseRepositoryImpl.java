@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> e
     }
 
     @Override
+    @Transactional
     public void delete(T entity, boolean isLogicDelete) {
         if (!isLogicDelete) {
             super.delete(entity);
@@ -32,6 +34,7 @@ public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> e
     }
 
     @Override
+    @Transactional
     public void deleteById(ID id, boolean isLogicDelete) {
         if (!isLogicDelete) {
             super.deleteById(id);

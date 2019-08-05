@@ -5,10 +5,13 @@ import com.eastrobot.kbs.template.exception.BusinessException;
 import com.eastrobot.kbs.template.exception.WrongEntityIdException;
 import com.eastrobot.kbs.template.model.BeanConverter;
 import com.eastrobot.kbs.template.model.entity.BaseEntity;
+import com.eastrobot.kbs.template.model.entity.User;
 import com.eastrobot.kbs.template.model.vo.req.UserReq;
 import com.eastrobot.kbs.template.model.vo.resp.UserResp;
 import com.eastrobot.kbs.template.service.IUserService;
-import com.eastrobot.kbs.template.util.PageUtil;
+import com.eastrobot.kbs.template.util.pageable.PageInfo;
+import com.eastrobot.kbs.template.util.pageable.PageInfoRequest;
+import com.eastrobot.kbs.template.util.pageable.PageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,9 +19,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -34,9 +35,12 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private UserRepository repo;
 
+    @Resource
+    private BeanConverter beanConverter;
+
     @Override
     public String save(UserReq vo) {
-        return Optional.ofNullable(BeanConverter.INSTANCE.convert(vo))
+        return Optional.ofNullable(beanConverter.convert(vo))
                 .map(v -> repo.save(v))
                 .map(BaseEntity::getId)
                 .orElseThrow(() -> new BusinessException("can't create user"));
@@ -44,7 +48,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Boolean update(UserReq vo) {
-        return Optional.ofNullable(BeanConverter.INSTANCE.convert(vo))
+        return Optional.ofNullable(beanConverter.convert(vo))
                 .map(v -> repo.save(v))
                 .map(BaseEntity::getId)
                 .filter(StringUtils::isNotEmpty)
@@ -63,20 +67,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserResp findById(String id) {
         return Optional.ofNullable(repo.findById(id).orElseThrow(WrongEntityIdException::new))
-                .map(BeanConverter.INSTANCE::convert)
+                .map(beanConverter::convert)
                 .get();
     }
 
     @Override
-    public Page<UserResp> pageForUser(PageRequest request) {
-        return Optional.of(repo.findAll(request))
+    public PageInfo<UserResp> pageForUser(PageInfoRequest request) {
+        PageRequest pageRequest = PageUtil.ofReq(request);
+        Page<User> page = repo.findAll(pageRequest);
+        return Optional.of(page)
                 .filter(p -> !p.isEmpty())
                 .map(Slice::getContent)
-                .flatMap(users -> {
-                    List<UserResp> userVoList = users.stream()
-                            .map(BeanConverter.INSTANCE::convert)
-                            .collect(Collectors.toList());
-                    return Optional.of(PageUtil.fillPage(userVoList, userVoList.size()));
-                }).orElseGet(PageUtil::emptyPage);
+                .map(users -> PageUtil.fillPage(beanConverter.convert(users), pageRequest, page.getTotalElements()))
+                .orElseGet(PageUtil::emptyPage);
     }
 }

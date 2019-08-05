@@ -2,15 +2,15 @@ package com.eastrobot.kbs.template.web.controller;
 
 
 import com.eastrobot.kbs.common.version.ApiVersion;
+import com.eastrobot.kbs.template.model.entity.ResponseEntity;
 import com.eastrobot.kbs.template.model.vo.req.UserReq;
 import com.eastrobot.kbs.template.model.vo.resp.UserResp;
 import com.eastrobot.kbs.template.service.IUserService;
+import com.eastrobot.kbs.template.util.pageable.PageInfo;
+import com.eastrobot.kbs.template.util.pageable.PageInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,13 +41,13 @@ public class UserController {
     public ResponseEntity<String> create(@ApiParam(value = "UserReq Create RequestBody")
                                          @Validated(UserReq.Create.class)
                                          @RequestBody UserReq vo) {
-        return ResponseEntity.ok(userService.save(vo));
+        return ResponseEntity.ofSuccess(userService.save(vo));
     }
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("{id}")
     public ResponseEntity delete(@NotEmpty @PathVariable String id) {
-        return ResponseEntity.ok(userService.deleteById(id));
+        return ResponseEntity.ofSuccess(userService.deleteById(id));
     }
 
     @ApiOperation(value = "修改用户")
@@ -55,20 +55,20 @@ public class UserController {
     public ResponseEntity<Boolean> update(@ApiParam(value = "UserReq Create RequestBody", type = "DatasourceVO")
                                           @Validated(UserReq.Update.class)
                                           @RequestBody UserReq vo) {
-        return ResponseEntity.ok(userService.update(vo));
+        return ResponseEntity.ofSuccess(userService.update(vo));
     }
 
     @ApiOperation(value = "根据id查询实体")
     @GetMapping("{id}")
     public ResponseEntity<UserResp> getOne(@PathVariable String id) {
-        return ResponseEntity.ok(userService.findById(id));
+        return ResponseEntity.ofSuccess(userService.findById(id));
     }
 
     @ApiOperation(value = "分页", notes = "返回查询结果")
     @GetMapping("/users")
-    public ResponseEntity<Page<UserResp>> list(@ApiParam(value = "Page Request", type = "PageRequest")
-                                             @Valid PageRequest pageRequest) {
-        return ResponseEntity.ok(userService.pageForUser(pageRequest));
+    public ResponseEntity<PageInfo<UserResp>> list(@ApiParam(value = "Page Request", type = "PageRequest")
+                                             @Valid PageInfoRequest pageInfoRequest) {
+        return ResponseEntity.ofSuccess(userService.pageForUser(pageInfoRequest));
     }
 
 }

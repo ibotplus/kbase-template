@@ -1,7 +1,8 @@
 package com.eastrobot.kbs.template.model.entity;
 
 import io.swagger.annotations.ApiModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -18,13 +19,10 @@ import javax.persistence.Table;
  * @author yogurt_lei
  * @since 2019-06-19
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "User对象")
-@Builder
 @Entity
 @Table(name = "DEV_USER")
 public class User extends BaseEntity {
