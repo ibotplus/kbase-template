@@ -64,6 +64,7 @@ src.
 #### 2.1 bean相互转换的工具
 
 > BeanConverter：a转成b，属性相同不用写mapping ，属性不同就增加mapping ,source=a中的属性，target=b中的属性，编译完成后会在`target/generated-sources`下生成BeanConverterImpl可以查看是否满足需求， 更复杂的业务转换自己处理。
+
 **注意：使用BeanConverter转换的Bean最好不要使用Lombok的@Builder注解，该方法构造时无法找到父类属性，导致转换缺少父类属性**
 
 ### 3. Spring Security with JWT
