@@ -10,20 +10,19 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity, ID> extends JpaRepository<T, ID> {
     /**
-     *
      * whether is logic delete
      *
-     * @param entity entity to delete
+     * @param entity        entity to delete
      * @param isLogicDelete logic delete flag
      */
-    void delete(T entity, boolean isLogicDelete);
+    boolean delete(T entity, boolean isLogicDelete);
 
     /**
-     *
      * whether is logic delete
      *
-     * @param id entity to search with key
+     * @param id            entity to search with key
      * @param isLogicDelete logic delete flag
      */
-    void deleteById(ID id, boolean isLogicDelete);
+    boolean deleteById(ID id, boolean isLogicDelete);
+
 }

@@ -2,6 +2,7 @@ package com.eastrobot.kbs.template.exception;
 
 import com.eastrobot.kbs.template.model.entity.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -59,11 +60,12 @@ public class GlobalExceptionHandler {
     /**
      * 数据库操作异常
      */
-    @ExceptionHandler(DaoException.class)
-    public ResponseEntity databaseExceptionHandler(DaoException ex) {
+    @ExceptionHandler({DaoException.class, DataAccessException.class})
+    public ResponseEntity databaseExceptionHandler(RuntimeException ex) {
         ex.printStackTrace();
         return ResponseEntity.ofFailure(ResultCode.DATABASE_OPERATED_FAILED, ex.getMessage());
     }
+
     /**
      * 其他未定义异常
      */

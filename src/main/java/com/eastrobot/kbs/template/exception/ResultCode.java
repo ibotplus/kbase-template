@@ -92,6 +92,7 @@ public enum ResultCode {
      * wrong entity id exception
      */
     WRONG_ENTITY_ID_EXCEPTION("1008", "WRONG ENTITY ID EXCEPTION"),
+    ENTITY_CREATE_FAILED("1009","ENTITY CREATE FAILED"),
     /**
      * undefined server exception
      */

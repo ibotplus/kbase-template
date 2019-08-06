@@ -69,7 +69,6 @@ public class BaseEntity implements Serializable {
         this.delFlag = 0;
         this.createUser = EnvironmentUtil.ofUid();
         this.modifyUser = this.createUser;
-        log.debug("异步保存事件 doNothing...");
         this.createDate = LocalDateTime.now();
         this.modifyDate = createDate;
     }

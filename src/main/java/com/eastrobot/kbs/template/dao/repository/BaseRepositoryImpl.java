@@ -24,18 +24,19 @@ public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> e
 
     @Override
     @Transactional
-    public void delete(T entity, boolean isLogicDelete) {
+    public boolean delete(T entity, boolean isLogicDelete) {
         if (!isLogicDelete) {
             super.delete(entity);
         } else {
             entity.setDelFlag(1);
             super.save(entity);
         }
+        return true;
     }
 
     @Override
     @Transactional
-    public void deleteById(ID id, boolean isLogicDelete) {
+    public boolean deleteById(ID id, boolean isLogicDelete) {
         if (!isLogicDelete) {
             super.deleteById(id);
         } else {
@@ -44,5 +45,7 @@ public class BaseRepositoryImpl<T extends BaseEntity, ID extends Serializable> e
                 super.save(v);
             });
         }
+        return true;
     }
+
 }

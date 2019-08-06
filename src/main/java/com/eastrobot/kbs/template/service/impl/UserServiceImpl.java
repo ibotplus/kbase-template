@@ -1,10 +1,8 @@
 package com.eastrobot.kbs.template.service.impl;
 
 import com.eastrobot.kbs.template.dao.repository.UserRepository;
-import com.eastrobot.kbs.template.exception.BusinessException;
 import com.eastrobot.kbs.template.exception.WrongEntityIdException;
 import com.eastrobot.kbs.template.model.BeanConverter;
-import com.eastrobot.kbs.template.model.entity.BaseEntity;
 import com.eastrobot.kbs.template.model.entity.User;
 import com.eastrobot.kbs.template.model.vo.req.UserReq;
 import com.eastrobot.kbs.template.model.vo.resp.UserResp;
@@ -12,13 +10,13 @@ import com.eastrobot.kbs.template.service.IUserService;
 import com.eastrobot.kbs.template.util.pageable.PageInfo;
 import com.eastrobot.kbs.template.util.pageable.PageInfoRequest;
 import com.eastrobot.kbs.template.util.pageable.PageUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,52 +31,40 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
 
     @Resource
-    private UserRepository repo;
-
+    private UserRepository userRepository;
     @Resource
     private BeanConverter beanConverter;
 
     @Override
-    public String save(UserReq vo) {
-        return Optional.ofNullable(beanConverter.convert(vo))
-                .map(v -> repo.save(v))
-                .map(BaseEntity::getId)
-                .orElseThrow(() -> new BusinessException("can't create user"));
-    }
-
-    @Override
-    public Boolean update(UserReq vo) {
-        return Optional.ofNullable(beanConverter.convert(vo))
-                .map(v -> repo.save(v))
-                .map(BaseEntity::getId)
-                .filter(StringUtils::isNotEmpty)
-                .isPresent();
-    }
-
-    @Override
-    public Boolean deleteById(String id) {
-        // logic delete
-        repo.deleteById(id, true);
-        // not recommend， physical delete
-        // repo.deleteById(id,false);
-        return true;
-    }
-
-    @Override
-    public UserResp findById(String id) {
-        return Optional.ofNullable(repo.findById(id).orElseThrow(WrongEntityIdException::new))
-                .map(beanConverter::convert)
+    public UserResp saveOrUpdate(UserReq userReq) {
+        return Optional.of(userReq)
+                .map(beanConverter::toEntity)
+                .map(userRepository::save)
+                .map(beanConverter::toVO)
                 .get();
     }
 
     @Override
-    public PageInfo<UserResp> pageForUser(PageInfoRequest request) {
+    public Boolean deleteById(String id) {
+        return userRepository.deleteById(id, true);
+    }
+
+    @Override
+    public UserResp findById(String id) {
+        return userRepository.findById(id).map(t -> beanConverter.toVO(t)).orElseThrow(WrongEntityIdException::new);
+    }
+
+    @Override
+    public PageInfo<UserResp> pageForResult(PageInfoRequest request) {
         PageRequest pageRequest = PageUtil.ofReq(request);
-        Page<User> page = repo.findAll(pageRequest);
+        Page<User> page = userRepository.findAll(pageRequest);
         return Optional.of(page)
                 .filter(p -> !p.isEmpty())
                 .map(Slice::getContent)
-                .map(users -> PageUtil.fillPage(beanConverter.convert(users), pageRequest, page.getTotalElements()))
+                .map(ts -> {
+                    List<UserResp> content = beanConverter.toVOList(ts);
+                    return PageUtil.fillPage(content, pageRequest, page.getTotalElements());
+                })
                 .orElseGet(PageUtil::emptyPage);
     }
 }

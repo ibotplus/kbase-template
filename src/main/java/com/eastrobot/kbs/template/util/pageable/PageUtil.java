@@ -45,18 +45,12 @@ public class PageUtil {
     }
 
     /**
-     * 获取单结果分页参数
-     */
-    public static PageRequest singlePageReq() {
-        return ofReq(0, 1, null);
-    }
-
-    /**
      * 填充页面
      *
-     * @param content 页内容
-     * @param total   页总数量
-     * @param <T>     填充内容
+     * @param content     页内容
+     * @param total       页总数量
+     * @param pageRequest 分页请求参数
+     * @param <T>         填充内容
      */
     public static <T> PageInfo<T> fillPage(List<T> content, PageRequest pageRequest, long total) {
         return PageInfo.of(new PageImpl<>(content, pageRequest, total));

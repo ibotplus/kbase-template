@@ -3,7 +3,6 @@ package com.eastrobot.kbs.template.model.vo.req;
 import com.eastrobot.kbs.template.model.vo.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,7 +13,6 @@ import javax.validation.constraints.NotEmpty;
 
 @ApiModel("userReq")
 @Data
-@Builder
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class UserReq extends BaseVO {
