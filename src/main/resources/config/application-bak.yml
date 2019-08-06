@@ -13,9 +13,9 @@ spring:
     boot:
       admin:
         client:
-          url: http://172.16.46.149:8888/kbase-monitor
-          username: admin
-          password: admin
+          url: http://172.16.8.139:8899/kbase-monitor
+          username: kbs
+          password: kbs123$
   cache:
     redis:
       cache-null-values: false
@@ -39,16 +39,8 @@ spring:
       maximum-pool-size: 10
       idle-timeout: 600000
       connection-init-sql: select 1 from dual
-# mybatis 相关配置
-mybatis-plus:
-  mapper-locations: classpath:config/mybatis/mapper/**/*.xml
-  global-config:
-    db-config:
-      logic-not-delete-value: 0
-      logic-delete-value: 1
-  config-location: classpath:config/mybatis/mybatis-config.xml
-  type-aliases-package: com.eastrobot.kbs.template.model.entity
-  check-config-location: true
+  jpa:
+    show-sql: true
 
 # kbs related configuration
 kbs:
