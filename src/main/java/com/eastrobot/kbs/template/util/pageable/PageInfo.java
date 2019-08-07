@@ -16,7 +16,6 @@ import java.util.List;
 @ApiModel
 public class PageInfo<T> implements Serializable {
 
-
     @ApiModelProperty(value = "是否第一页", position = 1)
     private boolean firstPage;
 
@@ -44,7 +43,9 @@ public class PageInfo<T> implements Serializable {
     @ApiModelProperty(value = "分页结果集", position = 10)
     private List<T> list;
 
-    private PageInfo(Page<T> page) {
+    public PageInfo(){}
+
+    public PageInfo(Page<T> page) {
         this.pageNum = page.getNumber() + 1;
         this.pageSize = page.getSize();
         this.pages = page.getTotalPages();

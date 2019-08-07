@@ -10,6 +10,9 @@ import com.eastrobot.kbs.template.service.IUserService;
 import com.eastrobot.kbs.template.util.pageable.PageInfo;
 import com.eastrobot.kbs.template.util.pageable.PageInfoRequest;
 import com.eastrobot.kbs.template.util.pageable.PageUtil;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -28,6 +31,7 @@ import java.util.Optional;
  * @since 2019-06-19
  */
 @Service
+@CacheConfig(cacheNames = "User")
 public class UserServiceImpl implements IUserService {
 
     @Resource
@@ -35,25 +39,29 @@ public class UserServiceImpl implements IUserService {
     @Resource
     private BeanConverter beanConverter;
 
+    @CacheEvict(allEntries = true)
     @Override
     public UserResp saveOrUpdate(UserReq userReq) {
         return Optional.of(userReq)
-                .map(beanConverter::toEntity)
+                .map(beanConverter::forward)
                 .map(userRepository::save)
-                .map(beanConverter::toVO)
+                .map(beanConverter::backward)
                 .get();
     }
 
+    @CacheEvict(allEntries = true)
     @Override
     public Boolean deleteById(String id) {
         return userRepository.deleteById(id, true);
     }
 
+    @Cacheable
     @Override
     public UserResp findById(String id) {
-        return userRepository.findById(id).map(t -> beanConverter.toVO(t)).orElseThrow(WrongEntityIdException::new);
+        return userRepository.findById(id).map(t -> beanConverter.backward(t)).orElseThrow(WrongEntityIdException::new);
     }
 
+    @Cacheable
     @Override
     public PageInfo<UserResp> pageForResult(PageInfoRequest request) {
         PageRequest pageRequest = PageUtil.ofReq(request);
@@ -61,8 +69,8 @@ public class UserServiceImpl implements IUserService {
         return Optional.of(page)
                 .filter(p -> !p.isEmpty())
                 .map(Slice::getContent)
-                .map(ts -> {
-                    List<UserResp> content = beanConverter.toVOList(ts);
+                .map(userList -> {
+                    List<UserResp> content = beanConverter.backward(userList);
                     return PageUtil.fillPage(content, pageRequest, page.getTotalElements());
                 })
                 .orElseGet(PageUtil::emptyPage);
