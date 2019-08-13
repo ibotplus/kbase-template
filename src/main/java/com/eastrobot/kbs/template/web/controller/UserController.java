@@ -41,13 +41,13 @@ public class UserController {
     public ResponseEntity<UserResp> create(@ApiParam(value = "UserReq Create RequestBody")
                                          @Validated(UserReq.Create.class)
                                          @RequestBody UserReq vo) {
-        return ResponseEntity.ofSuccess(userService.saveOrUpdate(vo));
+        return ResponseEntity.ok(userService.saveOrUpdate(vo));
     }
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("{id}")
     public ResponseEntity delete(@NotEmpty @PathVariable String id) {
-        return ResponseEntity.ofSuccess(userService.deleteById(id));
+        return ResponseEntity.ok(userService.deleteById(id));
     }
 
     @ApiOperation(value = "修改用户")
@@ -55,20 +55,20 @@ public class UserController {
     public ResponseEntity<UserResp> update(@ApiParam(value = "UserReq Create RequestBody", type = "DatasourceVO")
                                           @Validated(UserReq.Update.class)
                                           @RequestBody UserReq vo) {
-        return ResponseEntity.ofSuccess(userService.saveOrUpdate(vo));
+        return ResponseEntity.ok(userService.saveOrUpdate(vo));
     }
 
     @ApiOperation(value = "根据id查询实体")
     @GetMapping("{id}")
     public ResponseEntity<UserResp> getOne(@PathVariable String id) {
-        return ResponseEntity.ofSuccess(userService.findById(id));
+        return ResponseEntity.ok(userService.findById(id));
     }
 
     @ApiOperation(value = "分页", notes = "返回查询结果")
     @GetMapping("/users")
     public ResponseEntity<PageInfo<UserResp>> list(@ApiParam(value = "Page Request", type = "PageRequest")
                                              @Valid PageInfoRequest pageInfoRequest) {
-        return ResponseEntity.ofSuccess(userService.pageForResult(pageInfoRequest));
+        return ResponseEntity.ok(userService.pageForResult(pageInfoRequest));
     }
 
 }

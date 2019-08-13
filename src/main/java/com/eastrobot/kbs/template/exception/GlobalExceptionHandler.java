@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ValidationException.class, MethodArgumentNotValidException.class})
     public ResponseEntity validateExceptionHandler(Exception ex) {
         ex.printStackTrace();
-        return ResponseEntity.ofFailure(ResultCode.PARAMETER_VALIDATE_FAILED, ex.getMessage());
+        return ResponseEntity.failure(ResultCode.PARAMETER_VALIDATE_FAILED, ex.getMessage());
     }
 
     /**
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ResponseEntity controllerExceptionHandler(ApiException ex) {
         ex.printStackTrace();
-        return ResponseEntity.ofFailure(ResultCode.API_CALLED_FAILED, ex.getMessage());
+        return ResponseEntity.failure(ResultCode.API_CALLED_FAILED, ex.getMessage());
     }
 
     /**
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity businessExceptionHandler(BusinessException ex) {
-        return ResponseEntity.ofFailure(ResultCode.BUSINESS_EXECUTE_FAILED, ex.getMessage());
+        return ResponseEntity.failure(ResultCode.BUSINESS_EXECUTE_FAILED, ex.getMessage());
     }
 
     /**
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WrongEntityIdException.class)
     public ResponseEntity wrongEntityIdException(WrongEntityIdException ex) {
         ex.printStackTrace();
-        return ResponseEntity.ofFailure(ResultCode.WRONG_ENTITY_ID_EXCEPTION, ex.getMessage());
+        return ResponseEntity.failure(ResultCode.WRONG_ENTITY_ID_EXCEPTION, ex.getMessage());
     }
 
     /**
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({DaoException.class, DataAccessException.class})
     public ResponseEntity databaseExceptionHandler(RuntimeException ex) {
         ex.printStackTrace();
-        return ResponseEntity.ofFailure(ResultCode.DATABASE_OPERATED_FAILED, ex.getMessage());
+        return ResponseEntity.failure(ResultCode.DATABASE_OPERATED_FAILED, ex.getMessage());
     }
 
     /**
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity undefinedExceptionHandler(RuntimeException ex, HttpServletRequest request) {
         ex.printStackTrace();
-        return ResponseEntity.ofFailure(ResultCode.UNDEFINED_SERVER_EXCEPTION, ex.getMessage());
+        return ResponseEntity.failure(ResultCode.UNDEFINED_SERVER_EXCEPTION, ex.getMessage());
     }
 
 }

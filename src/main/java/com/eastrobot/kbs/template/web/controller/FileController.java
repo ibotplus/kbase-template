@@ -34,7 +34,7 @@ public class FileController {
     )
     public ResponseEntity upload(MultipartFile file) throws IOException {
         String voice = FileUploadUtil.upload(file.getInputStream(), file.getContentType(), file.getOriginalFilename());
-        return ResponseEntity.ofSuccess(voice);
+        return ResponseEntity.ok(voice);
     }
 
     @ApiOperation("删除文件")
@@ -43,7 +43,7 @@ public class FileController {
     })
     @DeleteMapping("/")
     public ResponseEntity delete(String filePath) {
-        return ResponseEntity.ofSuccess(FileUploadUtil.delete(filePath));
+        return ResponseEntity.ok(FileUploadUtil.delete(filePath));
     }
 
 

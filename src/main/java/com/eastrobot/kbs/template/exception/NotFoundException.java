@@ -18,6 +18,6 @@ public class NotFoundException implements ErrorController {
 
     @RequestMapping("/error")
     public ResponseEntity error() {
-        return ResponseEntity.ofFailure(ResultCode.PAGE_NOT_FOUND);
+        return ResponseEntity.failure(ResultCode.PAGE_NOT_FOUND);
     }
 }

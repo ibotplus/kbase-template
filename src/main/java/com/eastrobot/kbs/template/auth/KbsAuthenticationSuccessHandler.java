@@ -39,6 +39,6 @@ public class KbsAuthenticationSuccessHandler implements AuthenticationSuccessHan
         redisTemplate.opsForValue().set(userId, jwt);
         redisTemplate.expire(userId, jwtConfig.getExpireInMinute(), TimeUnit.MINUTES);
 
-        AuthUtil.flushResponse(response, ResponseEntity.ofSuccess(jwt));
+        AuthUtil.flushResponse(response, ResponseEntity.ok(jwt));
     }
 }

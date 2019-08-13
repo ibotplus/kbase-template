@@ -16,6 +16,6 @@ public class KbsAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         log.debug("[{}] UNAUTHORIZED", request.getServletPath());
-        AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.UNAUTHORIZED));
+        AuthUtil.flushResponse(response, ResponseEntity.failure(ResultCode.UNAUTHORIZED));
     }
 }

@@ -1,6 +1,6 @@
 package com.eastrobot.kbs.template.model.entity;
 
-import com.eastrobot.kbs.template.util.EnvironmentUtil;
+import com.eastrobot.kbs.template.util.AppContext;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -67,7 +67,7 @@ public class BaseEntity implements Serializable {
     @PrePersist
     public void prePersist() {
         this.delFlag = 0;
-        this.createUser = EnvironmentUtil.ofUid();
+        this.createUser = AppContext.ofUid();
         this.modifyUser = this.createUser;
         this.createDate = LocalDateTime.now();
         this.modifyDate = createDate;
@@ -75,7 +75,7 @@ public class BaseEntity implements Serializable {
 
     @PreUpdate
     public void preUpdate() {
-        this.modifyUser = EnvironmentUtil.ofUid();
+        this.modifyUser = AppContext.ofUid();
         this.modifyDate = LocalDateTime.now();
     }
 

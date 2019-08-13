@@ -54,28 +54,28 @@ public class ResponseEntity<T> implements Serializable {
     /**
      * common success response entity
      */
-    public static <T> ResponseEntity<T> ofSuccess(T data) {
+    public static <T> ResponseEntity<T> ok(T data) {
         return new ResponseEntity<T>().setCode(ResultCode.OK.code).setMeaning(ResultCode.OK.meaning).setData(data);
     }
 
     /**
      * common failure response entity with detail failure message
      */
-    public static ResponseEntity ofFailure(String explanation) {
+    public static ResponseEntity failure(String explanation) {
         return new ResponseEntity().setCode(ResultCode.FAILURE.code).setMeaning(ResultCode.FAILURE.code).setExplanation(explanation);
     }
 
     /**
      * common failure response entity with ResultCode and detail explanation
      */
-    public static ResponseEntity ofFailure(ResultCode resultCode) {
+    public static ResponseEntity failure(ResultCode resultCode) {
         return new ResponseEntity().setCode(resultCode.code).setMeaning(resultCode.meaning);
     }
 
     /**
      * common failure response entity with ResultCode and detail explanation
      */
-    public static ResponseEntity ofFailure(ResultCode resultCode, String explanation) {
+    public static ResponseEntity failure(ResultCode resultCode, String explanation) {
         return new ResponseEntity().setCode(resultCode.code).setMeaning(resultCode.meaning).setExplanation(explanation);
     }
 

@@ -41,7 +41,7 @@ public class KbsAuthenticationFailureHandler implements AuthenticationFailureHan
             resultCode = ResultCode.AUTH_ABNORMAL_ACCOUNT_STATUS;
         }
 
-        AuthUtil.flushResponse(response, ResponseEntity.ofFailure(resultCode, exception.getMessage()));
+        AuthUtil.flushResponse(response, ResponseEntity.failure(resultCode, exception.getMessage()));
     }
 
 }

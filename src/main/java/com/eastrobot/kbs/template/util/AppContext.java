@@ -15,7 +15,7 @@ import java.util.Optional;
  * @version v1.0 , 2019-03-14 20:57
  */
 @Component
-public class EnvironmentUtil implements ApplicationContextAware {
+public class AppContext implements ApplicationContextAware {
     private static ApplicationContext CTX;
 
     @Override
@@ -32,6 +32,6 @@ public class EnvironmentUtil implements ApplicationContextAware {
                 .map(SecurityContext::getAuthentication)
                 .map(Authentication::getPrincipal)
                 .map(Object::toString)
-                .orElse("");
+                .orElse("ANONYMOUS");
     }
 }

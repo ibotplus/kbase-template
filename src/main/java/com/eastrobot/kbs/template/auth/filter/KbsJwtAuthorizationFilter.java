@@ -59,14 +59,14 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
                 userId = claims.getId();
             } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException | ExpiredJwtException e) {
                 log.warn("jwt illegal: {} ", e.getMessage());
-                AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_ILLEGAL_TOKEN, e.getMessage()));
+                AuthUtil.flushResponse(response, ResponseEntity.failure(ResultCode.JWT_ILLEGAL_TOKEN, e.getMessage()));
                 return;
             }
 
             // 2. 不存在的jwt 用户已退出
             if (!Optional.ofNullable(redisTemplate.opsForValue().get(userId)).isPresent()) {
                 log.warn("jwt not exist, user may logout");
-                AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_USER_LOGOUT));
+                AuthUtil.flushResponse(response, ResponseEntity.failure(ResultCode.JWT_USER_LOGOUT));
                 return;
             }
 
@@ -76,7 +76,7 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
                 log.info("{} jwt has expired, renew jwt", userId);
                 redisTemplate.opsForValue().set(userId, renewOpt.get());
                 redisTemplate.expire(userId, jwtConfig.getExpireInMinute(), TimeUnit.MINUTES);
-                AuthUtil.flushResponse(response, ResponseEntity.ofFailure(ResultCode.JWT_RENEW_TOKEN, renewOpt.get()));
+                AuthUtil.flushResponse(response, ResponseEntity.failure(ResultCode.JWT_RENEW_TOKEN, renewOpt.get()));
                 return;
             }
 
