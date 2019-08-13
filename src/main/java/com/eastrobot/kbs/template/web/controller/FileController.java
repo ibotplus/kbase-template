@@ -1,6 +1,6 @@
 package com.eastrobot.kbs.template.web.controller;
 
-import com.eastrobot.kbs.template.model.entity.ResponseEntity;
+import com.eastrobot.kbs.template.model.vo.ResponseEntity;
 import com.eastrobot.kbs.template.util.FileUploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

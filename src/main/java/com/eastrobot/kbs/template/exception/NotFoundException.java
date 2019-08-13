@@ -1,6 +1,6 @@
 package com.eastrobot.kbs.template.exception;
 
-import com.eastrobot.kbs.template.model.entity.ResponseEntity;
+import com.eastrobot.kbs.template.model.vo.ResponseEntity;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

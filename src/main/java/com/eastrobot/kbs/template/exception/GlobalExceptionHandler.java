@@ -1,6 +1,6 @@
 package com.eastrobot.kbs.template.exception;
 
-import com.eastrobot.kbs.template.model.entity.ResponseEntity;
+import com.eastrobot.kbs.template.model.vo.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;

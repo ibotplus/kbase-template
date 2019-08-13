@@ -2,7 +2,7 @@ package com.eastrobot.kbs.template.web.controller;
 
 
 import com.eastrobot.kbs.common.version.ApiVersion;
-import com.eastrobot.kbs.template.model.entity.ResponseEntity;
+import com.eastrobot.kbs.template.model.vo.ResponseEntity;
 import com.eastrobot.kbs.template.model.vo.req.UserReq;
 import com.eastrobot.kbs.template.model.vo.resp.UserResp;
 import com.eastrobot.kbs.template.service.IUserService;

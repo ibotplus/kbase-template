@@ -1,4 +1,4 @@
-package com.eastrobot.kbs.template.model.entity;
+package com.eastrobot.kbs.template.model.vo;
 
 import com.eastrobot.kbs.template.exception.ResultCode;
 import io.swagger.annotations.ApiModel;

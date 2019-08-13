@@ -3,7 +3,7 @@ package com.eastrobot.kbs.template.auth.filter;
 import com.eastrobot.kbs.template.auth.AuthUtil;
 import com.eastrobot.kbs.template.config.JwtConfig;
 import com.eastrobot.kbs.template.exception.ResultCode;
-import com.eastrobot.kbs.template.model.entity.ResponseEntity;
+import com.eastrobot.kbs.template.model.vo.ResponseEntity;
 import com.eastrobot.kbs.template.util.JwtUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
