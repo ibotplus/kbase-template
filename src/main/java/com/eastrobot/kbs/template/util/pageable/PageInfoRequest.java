@@ -12,7 +12,8 @@ import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
- * NOTE: when pageNum equals zero, meaning full page, determine by config pagehelper.page-size-zero=true
+ *
+ * page request
  *
  * @author <a href="yogurt_lei@foxmail.com">Yogurt_lei</a>
  * @version v1.0 , 2019-04-10 18:23
