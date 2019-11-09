@@ -36,7 +36,7 @@ public class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "com.eastrobot.kbs.template.config.KbsUUIDGenerator")
     @Column(updatable = false)
     @ApiModelProperty("id")
     protected String id;
