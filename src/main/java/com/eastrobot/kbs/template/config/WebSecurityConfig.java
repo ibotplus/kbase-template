@@ -72,7 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // csrf
                 .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(new KbsAuthenticationEntryPoint())
+                .exceptionHandling()
+                    .authenticationEntryPoint(new KbsAuthenticationEntryPoint())
+                    .accessDeniedHandler(new KbsAccessDeniedHandler())
                 .and()
                 // X-Frame-Options default is deny
                 .headers().frameOptions().sameOrigin()

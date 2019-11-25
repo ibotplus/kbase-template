@@ -25,6 +25,10 @@ public enum ResultCode {
      */
     UNAUTHORIZED("401", "UNAUTHORIZED"),
     /**
+     * USER ACCESS DENIED
+     */
+    ACCESSDENIED("403", "ACCESS DENIED"),
+    /**
      * 404 NOT FOUND
      */
     PAGE_NOT_FOUND("404", "404 NOT FOUND"),
