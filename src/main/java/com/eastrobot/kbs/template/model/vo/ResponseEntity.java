@@ -1,6 +1,7 @@
 package com.eastrobot.kbs.template.model.vo;
 
 import com.eastrobot.kbs.template.exception.ResultCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -50,6 +52,19 @@ public class ResponseEntity<T> implements Serializable {
      */
     @ApiModelProperty("响应主体")
     private T data;
+
+    /**
+     * 反序列化构造方法
+     * @param json
+     * @throws IOException
+     */
+    public ResponseEntity(String json) throws IOException {
+        ResponseEntity responseEntity = new ObjectMapper().readValue(json, ResponseEntity.class);
+        this.code = responseEntity.getCode();
+        this.meaning = responseEntity.getMeaning();
+        this.explanation = responseEntity.getExplanation();
+        this.data = (T)responseEntity.getData();
+    }
 
     /**
      * common success response entity

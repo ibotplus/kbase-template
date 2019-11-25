@@ -1,11 +1,13 @@
 package com.eastrobot.kbs.template.model.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -18,6 +20,10 @@ import java.io.Serializable;
 @Validated
 @ApiModel
 public class BaseVO implements Serializable {
+
+    @NotEmpty(groups = Update.class)
+    @ApiModelProperty("ID")
+    private String id;
 
     public interface Create {
     }
